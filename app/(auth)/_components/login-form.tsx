@@ -19,6 +19,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { loginSchema } from "@/schemas";
+import { trpc } from "@/utils/trpc-client";
 
 const LoginForm = () => {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -29,8 +30,11 @@ const LoginForm = () => {
     },
   });
 
+  const { data } = trpc.getUser.useQuery();
+  console.log({ data });
+
   const onSubmit = (values: z.infer<typeof loginSchema>) => {
-    console.log(values);
+  
   };
 
   return (

@@ -1,37 +1,46 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { redirect, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import { courseTitleSchema } from "@/schemas";
+
+import { Button } from "@/components/ui/button";
 import {
   Form,
+  FormControl,
   FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
-
-const formSchema = z.object({
-  title: z
-    .string()
-    .min(3, { message: "Title must be atleast 3 characters long" }),
-});
+import { trpc } from "@/utils/trpc-client";
+import { toast } from "sonner";
 
 const CreateCourse = () => {
   const router = useRouter();
-  const { data: session } = useSession();
-  const onSubmitHandler = async (data: z.infer<typeof formSchema>) => {
-    //...
+
+  const { mutate: createCourse, isPending } =
+    trpc.course.createCourse.useMutation({
+      onSuccess: (res) => {
+        toast.success("Course has been created successfully");
+        router.push(`/teach/create/${res.courseId}`);
+      },
+
+      onError: (error) => {
+        alert(error.message);
+      },
+    });
+
+  const onSubmitHandler = (values: z.infer<typeof courseTitleSchema>) => {
+    createCourse(values);
   };
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof courseTitleSchema>>({
+    resolver: zodResolver(courseTitleSchema),
     defaultValues: { title: "" },
   });
   return (
@@ -59,15 +68,11 @@ const CreateCourse = () => {
                     </FormDescription>
                     <FormMessage />
                     <div className="pt-4 space-x-10">
-                      <Button
-                        type="submit"
-                        disabled={
-                          !form.formState.isValid || form.formState.isLoading
-                        }
-                      >
+                      <Button type="submit" disabled={isPending}>
                         Create
                       </Button>
                       <Button
+                        disabled={isPending}
                         type="button"
                         variant={"secondary"}
                         onClick={() => router.push("/teacher/courses")}

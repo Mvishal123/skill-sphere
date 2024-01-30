@@ -1,14 +1,12 @@
-import { z } from "zod";
 import { publicProcedure, router } from "../trpc";
 
 import { loginSchema, registerSchema } from "@/schemas";
 import { getUserByEmail } from "@/utils/data/getUserByEmail";
 
-import bcrypt from "bcryptjs";
+import { signIn } from "@/auth";
 import { db } from "@/db";
 import { TRPCError } from "@trpc/server";
-import { signIn } from "@/auth";
-import { LOGGED_IN_REDIRECT_URL } from "@/routes";
+import bcrypt from "bcryptjs";
 
 export const userRouter = router({
   registerUser: publicProcedure

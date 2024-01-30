@@ -1,7 +1,7 @@
 "use client";
 
 import { useClientAuthSession } from "@/hooks/client-session";
-import { signOut } from "@/auth";
+import { signOut } from "next-auth/react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {

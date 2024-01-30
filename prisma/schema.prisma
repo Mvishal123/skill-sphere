@@ -36,14 +36,14 @@ model User {
 model Course {
   id          String @id @default(cuid())
   title       String
-  description String @db.Text
-  cost        String
-  image       String
+  description String? @db.Text
+  cost        String?
+  image       String?
 
   userId String
 
-  difficulty CourseDifficulty
-  category   String
+  difficulty CourseDifficulty?
+  category   String?
 
   isPublished Boolean @default(false)
 

@@ -16,6 +16,12 @@ enum UserRole {
   ADMIN
 }
 
+enum CourseDifficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
 model User {
   id       String   @id @default(cuid())
   username String
@@ -23,7 +29,40 @@ model User {
   password String
   role     UserRole @default(USER)
 
-  Account Account[]
+  Account      Account[]
+  CourseReview CourseReview[]
+}
+
+model Course {
+  id          String @id @default(cuid())
+  title       String
+  description String @db.Text
+  cost        String
+  image       String
+
+  userId String
+
+  difficulty CourseDifficulty
+  category   String
+
+  isPublished Boolean @default(false)
+
+  //add Schema relation
+  //chapters, Reviews
+  CourseReview CourseReview[]
+}
+
+model CourseReview {
+  id       String @id @default(cuid())
+  userId   String @unique
+  courseId String @unique
+
+  review    String @db.Text
+  studentId String
+  rating    String
+
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Account {

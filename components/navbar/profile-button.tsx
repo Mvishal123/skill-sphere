@@ -15,7 +15,6 @@ import { LogOut, User2 } from "lucide-react";
 
 const ProfileButton = () => {
   const session = useClientAuthSession();
-  console.log({ session });
 
   return (
     <div>
@@ -28,7 +27,7 @@ const ProfileButton = () => {
             </AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent align="end">
           <Button variant="ghost" className="w-full">
             Profile
           </Button>

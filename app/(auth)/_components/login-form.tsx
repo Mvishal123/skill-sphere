@@ -36,8 +36,6 @@ const LoginForm = () => {
       if (data?.code === "CONFLICT" || data?.code === "NOT_FOUND") {
         setError(message);
       } else {
-        console.log({ ERROR: message });
-
         setError("Something unexpected happened");
       }
     },

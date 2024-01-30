@@ -23,12 +23,7 @@ export default async function RootLayout({
     <SessionProvider session={session}>
       <html lang="en">
         <body className={inter.className}>
-          <TRPCProvider>
-            <div className="sticky top-0">
-              <Navbar />
-            </div>
-            {children}
-          </TRPCProvider>
+          <TRPCProvider>{children}</TRPCProvider>
         </body>
       </html>
     </SessionProvider>

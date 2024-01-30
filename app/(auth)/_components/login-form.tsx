@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import AuthCardTemplate from "./auth-card";
 import { Button } from "@/components/ui/button";
@@ -20,8 +20,35 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { loginSchema } from "@/schemas";
 import { trpc } from "@/utils/trpc-client";
+import { ErrorMessage, SuccessMessage } from "@/components/status-message";
+import { redirect } from "next/navigation";
 
 const LoginForm = () => {
+  const [success, setSuccess] = useState<string | undefined>();
+  const [error, setError] = useState<string | undefined>();
+
+  const { mutate: loginUser, isPending } = trpc.user.loginUser.useMutation({
+    onSuccess: (res) => {
+      setSuccess(res.success);
+    },
+
+    onError: ({ data, message }) => {
+      if (data?.code === "CONFLICT" || data?.code === "NOT_FOUND") {
+        setError(message);
+      } else {
+        console.log({ ERROR: message });
+
+        setError("Something unexpected happened");
+      }
+    },
+
+    onSettled: () => {
+      if (success && !error) {
+        return redirect("/");
+      }
+    },
+  });
+
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -29,12 +56,10 @@ const LoginForm = () => {
       password: "",
     },
   });
-
-  const { data } = trpc.getUser.useQuery();
-  console.log({ data });
-
   const onSubmit = (values: z.infer<typeof loginSchema>) => {
-  
+    setSuccess("");
+    setError("");
+    loginUser(values);
   };
 
   return (
@@ -76,7 +101,9 @@ const LoginForm = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
+            {success && <SuccessMessage label={success} />}
+            {error && <ErrorMessage label={error} />}
+            <Button type="submit" className="w-full" disabled={isPending}>
               Submit
             </Button>
           </form>

@@ -3,8 +3,10 @@ import { adminProcedure, router } from "../trpc";
 import { getServerAuthSession } from "@/utils/data/getServerAuthSession";
 import { TRPCError } from "@trpc/server";
 import { db } from "@/db";
+import { z } from "zod";
 
 export const courseRouter = router({
+  // create course
   createCourse: adminProcedure
     .input(courseTitleSchema)
     .mutation(async ({ input }) => {
@@ -32,7 +34,38 @@ export const courseRouter = router({
 
       return {
         success: "Course created successfully",
-        courseId: course.id
+        courseId: course.id,
       };
+    }),
+
+  // delete a course
+  deleteCourse: adminProcedure
+    .input(
+      z.object({
+        courseId: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const session = await getServerAuthSession();
+      if (!session) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "session expired",
+        });
+      }
+
+      try {
+        await db.course.delete({
+          where: {
+            id: input.courseId,
+            userId: session.userId,
+          },
+        });
+      } catch (error) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Something went wrong",
+        });
+      }
     }),
 });

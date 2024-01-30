@@ -1,4 +1,5 @@
 import AlertBanner from "@/components/course/alert-banner";
+import CourseActionButton from "@/components/course/course-action-button";
 import MaxWidthContainer from "@/components/max-width-container";
 import { Button } from "@/components/ui/button";
 import { db } from "@/db";
@@ -23,9 +24,13 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
 
   const completedFields = requiredField.filter(Boolean).length;
   const isCompleted = requiredField.length === completedFields;
+  const isPublished = !!course?.isPublished;
   return (
     <div>
-      <AlertBanner label="This course is not yet published and will not be visible to the users" type="warning"/>
+      <AlertBanner
+        label="This course is not yet published and will not be visible to the users"
+        type="warning"
+      />
       <div className="pt-10">
         <MaxWidthContainer>
           <div className="flex justify-between items-center">
@@ -35,14 +40,11 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
                 Fields remaining {completedFields}/{requiredField.length}{" "}
               </p>
             </div>
-            <div className="flex items-center gap-4">
-              <Button variant="secondary" disabled={!isCompleted}>
-                Publish
-              </Button>
-              <Button size="sm">
-                <Trash className="w-5 h-5" />
-              </Button>
-            </div>
+            <CourseActionButton
+              courseId={courseId}
+              isCompleted={isCompleted}
+              isPublished={isPublished}
+            />
           </div>
         </MaxWidthContainer>
       </div>

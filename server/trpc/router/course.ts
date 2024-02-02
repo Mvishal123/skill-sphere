@@ -1,4 +1,4 @@
-import { courseTitleSchema } from "@/schemas";
+import { courseSchema, courseTitleSchema } from "@/schemas";
 import { adminProcedure, router } from "../trpc";
 import { getServerAuthSession } from "@/utils/data/getServerAuthSession";
 import { TRPCError } from "@trpc/server";
@@ -38,6 +38,26 @@ export const courseRouter = router({
       };
     }),
 
+  getCourse: adminProcedure
+    .input(
+      z.object({
+        courseId: z.string(),
+      })
+    )
+    .query(async ({ input }) => {
+      const course = await db.course.findFirst({
+        where: {
+          id: input.courseId,
+        },
+      });
+
+      if (!course) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "Course not found" });
+      }
+
+      return course;
+    }),
+
   // delete a course
   deleteCourse: adminProcedure
     .input(
@@ -67,5 +87,37 @@ export const courseRouter = router({
           message: "Something went wrong",
         });
       }
+    }),
+
+  // Update course details
+  updateCourse: adminProcedure
+    .input(
+      z.object({
+        values: courseSchema,
+        courseId: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const validatedFields = courseSchema.safeParse(input.values);
+      if (!validatedFields.success) {
+        throw new TRPCError({ code: "PARSE_ERROR", message: "Invalid input" });
+      }
+
+      const session = await getServerAuthSession();
+      if (!session) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "Admin privelages not available",
+        });
+      }
+
+      await db.course.update({
+        data: {
+          ...input.values,
+        },
+        where: {
+          id: input.courseId,
+        },
+      });
     }),
 });

@@ -58,14 +58,25 @@ export const userRouter = router({
       });
     }
 
-    await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
+    try {
+      await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
 
-    return {
-      success: "Signed in successfully",
-    };
+      return {
+        success: "Signed in successfully",
+      };
+
+
+    } catch (error) {
+      console.log({ "ERROR:": error });
+
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Something unexpected happened",
+      });
+    }
   }),
 });

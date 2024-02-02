@@ -12,6 +12,7 @@ import {
 import { Button } from "../ui/button";
 
 import { LogOut, User2 } from "lucide-react";
+import Link from "next/link";
 
 const ProfileButton = () => {
   const session = useClientAuthSession();
@@ -28,18 +29,25 @@ const ProfileButton = () => {
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <Button variant="ghost" className="w-full">
-            Profile
-          </Button>
-
-          {session && (
-            <Button
-              variant="ghost"
-              className="w-full"
-              onClick={() => signOut()}
-            >
-              <LogOut className="w-4 h-4 rotate-180 mr-2 flex" /> <p>Log out</p>
+          {!session && (
+            <Button className="w-full">
+              <Link href="/auth/login">Sign in</Link>
             </Button>
+          )}
+          {session && (
+            <div>
+              <Button variant="ghost" className="w-full">
+                Profile
+              </Button>
+              <Button
+                variant="ghost"
+                className="w-full"
+                onClick={() => signOut()}
+              >
+                <LogOut className="w-4 h-4 rotate-180 mr-2 flex" />{" "}
+                <p>Log out</p>
+              </Button>
+            </div>
           )}
         </DropdownMenuContent>
       </DropdownMenu>

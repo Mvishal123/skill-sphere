@@ -11,23 +11,23 @@ export default {
       name: "credentials",
       async authorize(credentials) {
         const validatedFields = loginSchema.safeParse(credentials);
-        if (!validatedFields) return null;
+        if (!validatedFields.success) return null;
 
-        const { email, password } = credentials;
+        const { email, password } = validatedFields.data;
 
         if (!email || !password) return null;
 
-        const existingUser = await getUserByEmail(email as string);
+        const user = await getUserByEmail(email as string);
 
-        if (!existingUser) return null;
+        if (!user) return null;
 
         const passwordMatch = await bcrypt.compare(
           password as string,
-          existingUser.password
+          user.password
         );
 
         if (passwordMatch) {
-          return existingUser;
+          return user;
         }
 
         return null;

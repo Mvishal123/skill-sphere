@@ -1,7 +1,5 @@
-import authConfig from "./auth.config";
 import NextAuth from "next-auth";
-import { ADMIN_ROUTES } from "./routes";
-import { redirect } from "next/dist/server/api-utils";
+import authConfig from "./auth.config";
 export const { auth } = NextAuth(authConfig);
 
 export default auth(async (req) => {});

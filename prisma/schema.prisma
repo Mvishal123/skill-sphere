@@ -9,7 +9,7 @@ datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
-}
+} 
 
 enum UserRole {
   USER
@@ -35,7 +35,7 @@ model User {
 
 model Course {
   id          String @id @default(cuid())
-  title       String
+  title       String?
   description String? @db.Text
   cost        String?
   image       String?

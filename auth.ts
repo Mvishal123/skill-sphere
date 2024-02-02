@@ -22,9 +22,6 @@ export const {
         session.user.role = token.role;
       }
 
-      console.log({session});
-      
-
       return session;
     },
     async jwt({ token }) {

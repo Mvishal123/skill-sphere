@@ -22,3 +22,16 @@ export const courseTitleSchema = z.object({
     .string()
     .min(3, { message: "Title must be atleast 3 characters long" }),
 });
+
+export const courseSchema = z.object({
+  title: z.optional(
+    z.string().min(2, { message: "Title should not be empty" })
+  ),
+
+  description: z.optional(
+    z.string().min(1, { message: "Description should not be empty" })
+  ),
+  image: z.optional(z.string()),
+  //TODO: add schema for course category
+  price: z.optional(z.number()),
+});

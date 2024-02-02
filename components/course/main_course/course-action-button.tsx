@@ -1,7 +1,7 @@
 "use client";
 
 import { Loader2, Trash } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { trpc } from "@/utils/trpc-client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";

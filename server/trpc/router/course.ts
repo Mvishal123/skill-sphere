@@ -120,4 +120,17 @@ export const courseRouter = router({
         },
       });
     }),
+
+  getCategories: adminProcedure.query(async () => {
+    const categories = await db.coursecategory.findMany({});
+
+    if (!categories) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Something unexpected happened",
+      });
+    }
+
+    return categories;
+  }),
 });

@@ -39,11 +39,11 @@ model Course {
   description String? @db.Text
   cost        String?
   image       String?
+  category    String?
 
   userId String
 
   difficulty CourseDifficulty?
-  category   String?
 
   isPublished Boolean @default(false)
 
@@ -77,6 +77,11 @@ model Chapter {
   courseId String
 
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+}
+
+model Coursecategory {
+  id       String @id @default(cuid())
+  category String
 }
 
 model Account {

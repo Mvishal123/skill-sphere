@@ -2,6 +2,7 @@
 
 import { trpc } from "@/app/_trpc/trpc-client";
 import AlertBanner from "@/components/course/alert-banner";
+import CategoryForm from "@/components/course/main_course/category-form";
 import ChapterSection from "@/components/course/main_course/chapter-form";
 import CourseActionButton from "@/components/course/main_course/course-action-button";
 import DescriptionForm from "@/components/course/main_course/description-form";
@@ -80,6 +81,10 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
                   courseId={course?.id!}
                 />
                 <ImageForm initialValue={course?.image!} courseId={courseId} />
+                <CategoryForm
+                  initialValue={course?.category!}
+                  courseId={courseId!}
+                />
               </div>
             </div>
 

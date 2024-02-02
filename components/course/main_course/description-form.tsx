@@ -63,7 +63,7 @@ const DescriptionForm = ({ initialValue, courseId }: PageProps) => {
     });
   };
   return (
-    <div className="mt-4 rounded-lg bg-slate-100 px-4 py-2">
+    <div className="rounded-lg bg-slate-100 px-4 py-2 shadow-md">
       <div className="flex justify-between items-center">
         <h1 className="text-lg">Course description</h1>
         {!edit ? (

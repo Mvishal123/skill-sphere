@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { withUt } from "uploadthing/tw";
 
 const {
   default: flattenColorPalette,
@@ -16,7 +17,7 @@ function addVariablesForColors({ addBase, theme }: any) {
   });
 }
 
-const config: import("tailwindcss").Config = {
+const config: import("tailwindcss").Config = withUt({
   darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
@@ -92,6 +93,6 @@ const config: import("tailwindcss").Config = {
     },
   },
   plugins: [require("tailwindcss-animate"), addVariablesForColors],
-} satisfies Config;
+}) satisfies Config;
 
 export default config;

@@ -64,7 +64,7 @@ const TitleForm = ({ initialValue, courseId }: titleProps) => {
 
   return (
     <div>
-      <div className="w-full bg-slate-100 rounded-lg px-4 py-2">
+      <div className="w-full bg-slate-100 rounded-lg px-4 py-2 shadow-md">
         <div className="flex justify-between">
           <h1 className="text-lg">Chapter title</h1>
           <Button

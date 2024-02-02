@@ -4,23 +4,23 @@ import { trpc } from "@/app/_trpc/trpc-client";
 import AlertBanner from "@/components/course/alert-banner";
 import CourseActionButton from "@/components/course/main_course/course-action-button";
 import DescriptionForm from "@/components/course/main_course/description-form";
+import ImageForm from "@/components/course/main_course/image-form";
 import TitleForm from "@/components/course/main_course/title-form";
 import IconBadge from "@/components/icon-badge";
 import MaxWidthContainer from "@/components/max-width-container";
 import { db } from "@/db";
 import { LayoutDashboard } from "lucide-react";
 
-const CoursePage =  async ({ params }: { params: { courseId: string } }) => {
+const CoursePage = async ({ params }: { params: { courseId: string } }) => {
   const { courseId } = params;
-
 
   // const {data: course} = trpc.course.getCourse.useQuery({courseId})
   const course = await db.course.findFirst({
     where: {
-      id: courseId
-    }
-  })
-  
+      id: courseId,
+    },
+  });
+
   const requiredField = [
     course?.title,
     course?.description,
@@ -46,7 +46,7 @@ const CoursePage =  async ({ params }: { params: { courseId: string } }) => {
             <div>
               <h1 className="text-3xl font-bold">Create a new course</h1>
               <p className="text-md text-slate-500">
-                Fields remaining {completedFields}/{requiredField.length}{" "}
+                Fields completed {completedFields}/{requiredField.length}{" "}
               </p>
             </div>
             <CourseActionButton
@@ -57,7 +57,7 @@ const CoursePage =  async ({ params }: { params: { courseId: string } }) => {
           </div>
 
           {/* forms */}
-          <div className="grid  md:grid-cols-2 mt-12">
+          <div className="grid  md:grid-cols-2 mt-12 pb-6">
             {/* Grid col 1 */}
             <div className="flex-1">
               <div className="flex items-center gap-3">
@@ -66,7 +66,7 @@ const CoursePage =  async ({ params }: { params: { courseId: string } }) => {
                   Customize your course
                 </h1>
               </div>
-              <div className="flex flex-col mt-8 max-w-[500px]">
+              <div className="flex flex-col mt-8 max-w-[500px] space-y-8">
                 <TitleForm
                   initialValue={course?.title!}
                   courseId={course?.id!}
@@ -75,6 +75,7 @@ const CoursePage =  async ({ params }: { params: { courseId: string } }) => {
                   initialValue={course?.description!}
                   courseId={course?.id!}
                 />
+                <ImageForm initialValue={course?.image!} courseId={courseId} />
               </div>
             </div>
 

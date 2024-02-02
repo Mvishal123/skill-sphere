@@ -47,7 +47,7 @@ const ChaptersList = ({ onEdit, onReorder, items }: ChaptersListProps) => {
     setChapters(items);
 
     const bulkUpdateData = updatedChapters.map((chapter) => ({
-      chapterId: chapter.id,
+      chapterId: chapter.id, // Extract the 'id' property from 'chapterId' object
       position: items.findIndex((item) => item.id === chapter.id),
     }));
 
@@ -89,7 +89,9 @@ const ChaptersList = ({ onEdit, onReorder, items }: ChaptersListProps) => {
                     </div>
                     {chapter.title}
                     <div className="ml-auto pr-2 flex items-center gap-x-2">
-                      {chapter.isFree && <Badge className="bg-green-600">Free</Badge>}
+                      {chapter.isFree && (
+                        <Badge className="bg-green-600">Free</Badge>
+                      )}
                       <Badge
                         className={cn(
                           "bg-slate-500",

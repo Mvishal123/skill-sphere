@@ -24,6 +24,7 @@ import { useSession } from "next-auth/react";
 import { Chapter } from "@prisma/client";
 import { trpc } from "@/app/_trpc/trpc-client";
 import { toast } from "sonner";
+import ChaptersList from "./chapter-list";
 
 interface ChapterSchemaProps {
   initialValue: Chapter[] | [];
@@ -63,29 +64,31 @@ const ChapterSection = ({ initialValue, courseId }: ChapterSchemaProps) => {
       onSettled: () => toggleCreate(),
     });
 
+  const { mutate: reorderChapter } = trpc.chapter.chapterReorder.useMutation({
+    onSuccess: (data) => {
+      toast.success(data);
+
+      router.refresh();
+    },
+    onError: ({ message }) => {
+      toast.error(message);
+    },
+    onSettled: () => setIsUpdating(false),
+  });
+
   const toggleCreate = () => setIsCreating((prev) => !prev);
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     createChapter({ title: data.title, courseId });
   };
 
-  // const onReorderHandler = async (
-  //   updateData: { chapterId: string; position: number }[]
-  // ) => {
-  //   try {
-  //     setIsUpdating(true);
-  //     await axios.put(`/api/courses/create/${courseId}/chapter/reorder`, {
-  //       list: updateData,
-  //     });
-
-  //     toast.success("Chapters reordered");
-  //     router.refresh();
-  //   } catch (error) {
-  //     toast.error("Something went wrong");
-  //   } finally {
-  //     setIsUpdating(false);
-  //   }
-  // };
+  const onReorderHandler = async (
+    updateData: { chapterId: string; position: number }[]
+  ) => {
+    reorderChapter({
+      list: updateData,
+    });
+  };
 
   const onEditHandler = (chapterId: string) => {
     router.push(`/teacher/courses/create/${courseId}/chapter/${chapterId}`);
@@ -147,13 +150,13 @@ const ChapterSection = ({ initialValue, courseId }: ChapterSchemaProps) => {
           </div>
         )}
 
-        {/* {!isCreating && (
+        {!isCreating && (
           <ChaptersList
             onEdit={onEditHandler}
             onReorder={onReorderHandler}
             items={initialValue || []}
           />
-        )} */}
+        )}
         {!isCreating && (
           <p className="text-sm text-muted-foreground mt-4">
             Drag and drop to reorder the chapters

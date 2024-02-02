@@ -4,7 +4,7 @@ import React, { PropsWithChildren } from "react";
 const layout = ({ children }: PropsWithChildren) => {
   return (
     <div>
-      <div className="sticky top-0">
+      <div className="sticky top-0 z-50">
         <Navbar />
       </div>
       {children}

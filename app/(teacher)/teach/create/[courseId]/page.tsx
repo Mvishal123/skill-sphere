@@ -2,6 +2,7 @@
 
 import { trpc } from "@/app/_trpc/trpc-client";
 import AlertBanner from "@/components/course/alert-banner";
+import ChapterSection from "@/components/course/main_course/chapter-form";
 import CourseActionButton from "@/components/course/main_course/course-action-button";
 import DescriptionForm from "@/components/course/main_course/description-form";
 import ImageForm from "@/components/course/main_course/image-form";
@@ -9,7 +10,7 @@ import TitleForm from "@/components/course/main_course/title-form";
 import IconBadge from "@/components/icon-badge";
 import MaxWidthContainer from "@/components/max-width-container";
 import { db } from "@/db";
-import { LayoutDashboard } from "lucide-react";
+import { LayoutDashboard, ListTodo } from "lucide-react";
 
 const CoursePage = async ({ params }: { params: { courseId: string } }) => {
   const { courseId } = params;
@@ -18,6 +19,9 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
   const course = await db.course.findFirst({
     where: {
       id: courseId,
+    },
+    include: {
+      Chapter: true,
     },
   });
 
@@ -66,7 +70,7 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
                   Customize your course
                 </h1>
               </div>
-              <div className="flex flex-col mt-8 max-w-[500px] space-y-8">
+              <div className="flex flex-col mt-8 max-w-[600px] space-y-8">
                 <TitleForm
                   initialValue={course?.title!}
                   courseId={course?.id!}
@@ -80,7 +84,20 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
             </div>
 
             {/*  Grid col 2 */}
-            <div className="flex-1"></div>
+            <div className="flex-1">
+              <div className="flex items-center gap-3">
+                <IconBadge icon={ListTodo} status={false} />
+                <h1 className="font-bold md:text-xl lg:text-2xl">
+                  Customize your course
+                </h1>
+              </div>
+              <div className="flex flex-col mt-8 max-w-[600px] space-y-8">
+                <ChapterSection
+                  initialValue={course?.Chapter!}
+                  courseId={courseId!}
+                />
+              </div>
+            </div>
           </div>
         </MaxWidthContainer>
       </div>

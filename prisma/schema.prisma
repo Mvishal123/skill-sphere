@@ -9,7 +9,7 @@ datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
-} 
+}
 
 enum UserRole {
   USER
@@ -34,8 +34,8 @@ model User {
 }
 
 model Course {
-  id          String @id @default(cuid())
-  title       String?
+  id          String  @id @default(cuid())
+  title       String
   description String? @db.Text
   cost        String?
   image       String?
@@ -50,6 +50,7 @@ model Course {
   //add Schema relation
   //chapters, Reviews
   CourseReview CourseReview[]
+  Chapter      Chapter[]
 }
 
 model CourseReview {
@@ -63,6 +64,19 @@ model CourseReview {
 
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Chapter {
+  id          String  @id @default(cuid())
+  title       String?
+  description String?
+  position    String?
+  isPublished Boolean @default(false)
+  isFree      Boolean @default(false)
+
+  courseId String
+
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 }
 
 model Account {

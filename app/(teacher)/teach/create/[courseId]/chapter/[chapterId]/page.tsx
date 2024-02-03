@@ -5,9 +5,12 @@ import ChapterAcessForm from "@/components/course/chapter/chapter-access-form";
 import ChapterActionButton from "@/components/course/chapter/chapter-action-button";
 import ChapterDescriptionForm from "@/components/course/chapter/chapter-description-form";
 import ChapterTitleForm from "@/components/course/chapter/chapter-title-form";
+import ChapterVideoForm from "@/components/course/chapter/chapter-video-form";
 import IconBadge from "@/components/icon-badge";
 import MaxWidthContainer from "@/components/max-width-container";
 import { Button } from "@/components/ui/button";
+import VideoPlayer from "@/components/video-player";
+// import Player from "@/components/video-player";
 import { db } from "@/db";
 import { ArrowLeft, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
@@ -93,7 +96,21 @@ const CoursePage = async ({
             </div>
 
             {/*  Grid col 2 */}
-            <div className="flex-1"></div>
+            <div className="flex-1">
+              <div className="flex items-center gap-3">
+                <IconBadge icon={LayoutDashboard} status={false} />
+                <h1 className="font-bold md:text-xl lg:text-2xl">
+                  Chapter video
+                </h1>
+              </div>
+              <div className="flex flex-col mt-8 space-y-8">
+                <ChapterVideoForm
+                  chapterId={chapterId}
+                  courseId={courseId}
+                  initialValue={chapter?.video ?? ""}
+                />
+              </div>
+            </div>
           </div>
         </MaxWidthContainer>
       </div>

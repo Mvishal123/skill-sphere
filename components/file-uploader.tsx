@@ -1,30 +1,32 @@
 import { ourFileRouter } from "@/app/api/uploadthing/core";
 import { UploadDropzone } from "@/utils/uploadthing/uploadthing";
 
-interface UploadDropZoneProps {
+interface FileUploaderProps {
   courseId: string;
+  chapterId?: string;
   endPoint: keyof typeof ourFileRouter;
   onChange: (url: string) => void;
 }
-const UploadDropZone = ({
+const FileUploader = ({
   courseId,
   endPoint,
   onChange,
-}: UploadDropZoneProps) => {
+  chapterId,
+}: FileUploaderProps) => {
   return (
     <UploadDropzone
-      input={{
-        courseId,
-      }}
+      input={
+        endPoint === "uploadVideo" ? { chapterId, courseId } : { courseId }
+      }
       endpoint={endPoint}
       onClientUploadComplete={(res) => {
-        onChange(res?.[0].url)
+        onChange(res?.[0].url);
       }}
       onUploadError={(error) => {
-        console.log("[UPLOADTHING COURSE]:", error);
+        console.log("[UPLOADTHING COURSE]:", error.message);
       }}
     />
   );
 };
 
-export default UploadDropZone;
+export default FileUploader;

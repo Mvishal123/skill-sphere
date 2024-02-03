@@ -5,7 +5,7 @@ import { CameraIcon, PencilIcon, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import UploadDropZone from "./image-uploader";
+import UploadDropZone from "../../file-uploader";
 import { trpc } from "@/app/_trpc/trpc-client";
 import { toast } from "sonner";
 import { z } from "zod";

@@ -1,6 +1,7 @@
 // "use client"
 
 import AlertBanner from "@/components/course/alert-banner";
+import ChapterAcessForm from "@/components/course/chapter/chapter-access-form";
 import ChapterActionButton from "@/components/course/chapter/chapter-action-button";
 import ChapterDescriptionForm from "@/components/course/chapter/chapter-description-form";
 import ChapterTitleForm from "@/components/course/chapter/chapter-title-form";
@@ -74,7 +75,6 @@ const CoursePage = async ({
               </div>
 
               <div className="flex flex-col mt-8 space-y-8">
-                ``
                 <ChapterTitleForm
                   chapterId={chapterId}
                   initialValue={chapter?.title!}
@@ -83,6 +83,11 @@ const CoursePage = async ({
                   initialValue={chapter?.description!}
                   chapterId={chapterId!}
                   courseId={courseId}
+                />
+                <ChapterAcessForm
+                  initialValue={chapter?.isFree!}
+                  chapterId={chapterId!}
+                  courseId={chapterId!}
                 />
               </div>
             </div>

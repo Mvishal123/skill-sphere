@@ -34,4 +34,5 @@ export const courseSchema = z.object({
   image: z.optional(z.string()),
   //TODO: add schema for course category
   price: z.optional(z.number()),
+  category: z.optional(z.string())
 });

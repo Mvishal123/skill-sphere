@@ -35,3 +35,14 @@ export const courseSchema = z.object({
   cost: z.number().min(1, { message: "Course can't be free" }).optional(),
   category: z.optional(z.string()),
 });
+
+export const chapterSchema = z.object({
+  title: z.optional(
+    z.string().min(2, { message: "Title should not be empty" })
+  ),
+
+  description: z.optional(
+    z.string().min(1, { message: "Description should not be empty" })
+  ),
+  isFree: z.boolean().optional(),
+});

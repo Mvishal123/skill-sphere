@@ -2,6 +2,7 @@
 
 import AlertBanner from "@/components/course/alert-banner";
 import ChapterActionButton from "@/components/course/chapter/chapter-action-button";
+import ChapterTitleForm from "@/components/course/chapter/chapter-title-form";
 import IconBadge from "@/components/icon-badge";
 import MaxWidthContainer from "@/components/max-width-container";
 import { Button } from "@/components/ui/button";
@@ -24,15 +25,14 @@ const CoursePage = async ({
   });
 
   const requiredField = [
-    chapter?.title, 
+    chapter?.title,
     chapter?.description,
-    // add video 
-  ] 
-  
+    // add video
+  ];
 
-    const completedFields = requiredField.filter(Boolean).length;
-    const isCompleted = requiredField.length === completedFields;
-    const isPublished = !!chapter?.isPublished;
+  const completedFields = requiredField.filter(Boolean).length;
+  const isCompleted = requiredField.length === completedFields;
+  const isPublished = !!chapter?.isPublished;
   return (
     <div>
       <AlertBanner
@@ -54,7 +54,11 @@ const CoursePage = async ({
                 {/* Fields completed {completedFields}/{requiredField.length}{" "} */}
               </p>
             </div>
-            <ChapterActionButton isPublished={chapter?.isPublished!} chapterId={chapterId} isCompleted={isCompleted}/>
+            <ChapterActionButton
+              isPublished={chapter?.isPublished!}
+              chapterId={chapterId}
+              isCompleted={isCompleted}
+            />
           </div>
 
           {/* forms */}
@@ -67,7 +71,13 @@ const CoursePage = async ({
                   Customize your course
                 </h1>
               </div>
-              <div className="flex flex-col mt-8 space-y-8"></div>
+
+              <div className="flex flex-col mt-8 space-y-8">
+                <ChapterTitleForm
+                  chapterId={chapterId}
+                  initialValue={chapter?.title!}
+                />
+              </div>
             </div>
 
             {/*  Grid col 2 */}

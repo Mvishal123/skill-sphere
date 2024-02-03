@@ -111,14 +111,18 @@ export const courseRouter = router({
         });
       }
 
-      await db.course.update({
-        data: {
-          ...input.values,
-        },
-        where: {
-          id: input.courseId,
-        },
-      });
+      try {
+        await db.course.update({
+          data: {
+            ...input.values,
+          },
+          where: {
+            id: input.courseId,
+          },
+        });
+      } catch (error: any) {
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: error });
+      }
     }),
 
   getCategories: adminProcedure.query(async () => {

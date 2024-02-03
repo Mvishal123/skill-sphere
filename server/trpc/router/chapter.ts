@@ -2,6 +2,8 @@ import { z } from "zod";
 import { adminProcedure, router } from "../trpc";
 import { db } from "@/db";
 import { TRPCError } from "@trpc/server";
+import { chapterSchema } from "@/schemas";
+import { getServerAuthSession } from "@/utils/data/getServerAuthSession";
 
 export const chapterRouter = router({
   createChapter: adminProcedure
@@ -82,6 +84,41 @@ export const chapterRouter = router({
         });
 
         return { courseId: chapter.courseId };
+      } catch (error: any) {
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: error });
+      }
+    }),
+
+  chapterUpdate: adminProcedure
+    .input(
+      z.object({
+        values: chapterSchema,
+        chapterId: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const validatedFields = chapterSchema.safeParse(input.values);
+      if (!validatedFields.success) {
+        throw new TRPCError({ code: "PARSE_ERROR", message: "Invalid input" });
+      }
+
+      const session = await getServerAuthSession();
+      if (!session) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "Admin privelages not available",
+        });
+      }
+
+      try {
+        await db.chapter.update({
+          data: {
+            ...input.values,
+          },
+          where: {
+            id: input.chapterId,
+          },
+        });
       } catch (error: any) {
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: error });
       }

@@ -2,6 +2,7 @@
 
 import AlertBanner from "@/components/course/alert-banner";
 import ChapterActionButton from "@/components/course/chapter/chapter-action-button";
+import ChapterDescriptionForm from "@/components/course/chapter/chapter-description-form";
 import ChapterTitleForm from "@/components/course/chapter/chapter-title-form";
 import IconBadge from "@/components/icon-badge";
 import MaxWidthContainer from "@/components/max-width-container";
@@ -73,9 +74,15 @@ const CoursePage = async ({
               </div>
 
               <div className="flex flex-col mt-8 space-y-8">
+                ``
                 <ChapterTitleForm
                   chapterId={chapterId}
                   initialValue={chapter?.title!}
+                />
+                <ChapterDescriptionForm
+                  initialValue={chapter?.description!}
+                  chapterId={chapterId!}
+                  courseId={courseId}
                 />
               </div>
             </div>

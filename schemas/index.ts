@@ -32,7 +32,6 @@ export const courseSchema = z.object({
     z.string().min(1, { message: "Description should not be empty" })
   ),
   image: z.optional(z.string()),
-  //TODO: add schema for course category
-  price: z.optional(z.number()),
-  category: z.optional(z.string())
+  cost: z.number().min(1, { message: "Course can't be free" }).optional(),
+  category: z.optional(z.string()),
 });

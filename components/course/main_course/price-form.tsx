@@ -1,62 +1,47 @@
 "use client";
-
 import { PencilIcon } from "lucide-react";
 import { useState } from "react";
+
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { trpc } from "@/app/_trpc/trpc-client";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Input } from "@/components/ui/input";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { currencyConverter } from "@/lib/currency-converter";
 import { courseSchema } from "@/schemas";
+import { trpc } from "@/utils/trpc-client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-interface CategoryProps {
-  initialValue: string;
+interface priceProps {
+  initialValue: number;
   courseId: string;
 }
 
-const CategoryForm = ({ initialValue, courseId }: CategoryProps) => {
+const PriceForm = ({ initialValue, courseId }: priceProps) => {
   const router = useRouter();
   const [edit, setEdit] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
 
   const utils = trpc.useUtils();
+
   const form = useForm<z.infer<typeof courseSchema>>({
     resolver: zodResolver(courseSchema),
     defaultValues: {
-      category: initialValue,
+      cost: initialValue | 0,
     },
   });
+
+  console.log(form.formState);
+  
 
   const { mutate: updateCourse, isPending } =
     trpc.course.updateCourse.useMutation({
       onSuccess: () => {
-        toast.success("Title updated");
+        toast.success("Price updated");
         utils.invalidate();
       },
       onError: ({ message }) => {
@@ -66,30 +51,24 @@ const CategoryForm = ({ initialValue, courseId }: CategoryProps) => {
         setEdit(false);
       },
     });
-
-  const { data: categories } = trpc.course.getCategories.useQuery();
-
-  //   console.log({categories});
-
   const onSubmit = async (data: z.infer<typeof courseSchema>) => {
-    console.log("SUbmiting...");
+    console.log("Price updating");
 
     updateCourse({
       values: data,
       courseId,
     });
   };
-
   const handleEdit = () => setEdit((prev) => !prev);
 
   return (
     <div>
       <div className="w-full bg-slate-100 rounded-lg px-4 py-2 shadow-md">
         <div className="flex justify-between">
-          <h1 className="text-lg">Chapter title</h1>
+          <h1 className="text-lg">Chapter price</h1>
           <Button
             size="sm"
-            variant="ghost"
+            variant={"ghost"}
             onClick={handleEdit}
             className={cn(
               "flex items-center text-sm cursor-pointer",
@@ -97,18 +76,17 @@ const CategoryForm = ({ initialValue, courseId }: CategoryProps) => {
             )}
           >
             <PencilIcon className="h-4 w-4 mr-2" />
-            Edit title
+            Edit price
           </Button>
         </div>
-        <div className="mt-4">
+        <div className="mt-4 ">
           {!edit && (
             <div
-              className={cn(
-                "font-bold",
-                !initialValue && "italic text-slate-500 text-sm font-normal"
-              )}
+              className={cn("font-bold", {
+                "italic font-normal text-sm text-slate-500": !initialValue,
+              })}
             >
-              {initialValue ?? "Category not selected"}
+              {<p>{currencyConverter(initialValue)}</p>}
             </div>
           )}
           {edit && (
@@ -116,34 +94,27 @@ const CategoryForm = ({ initialValue, courseId }: CategoryProps) => {
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 <FormField
                   control={form.control}
-                  name="category"
+                  name="cost"
                   render={({ field }) => (
                     <FormItem>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a category to display" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {categories?.map((course) => {
-                            return (
-                              <SelectItem value={course.category}>
-                                {course.category}
-                              </SelectItem>
-                            );
-                          })}
-                        </SelectContent>
-                      </Select>
+                      <FormControl>
+                        <Input  inputMode="numeric" type="number" {...field} />
+                      </FormControl>
                     </FormItem>
                   )}
                 />
                 <div className="mt-4">
                   <Button type="submit" size="sm" disabled={isPending}>
                     Save
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant={"secondary"}
+                    className="ml-3"
+                    onClick={handleEdit}
+                  >
+                    cancel
                   </Button>
                 </div>
               </form>
@@ -155,4 +126,4 @@ const CategoryForm = ({ initialValue, courseId }: CategoryProps) => {
   );
 };
 
-export default CategoryForm;
+export default PriceForm;

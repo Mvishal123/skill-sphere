@@ -64,4 +64,26 @@ export const chapterRouter = router({
         });
       }
     }),
+
+  deleteChapter: adminProcedure
+    .input(
+      z.object({
+        chapterId: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const { chapterId } = input;
+
+      try {
+        const chapter = await db.chapter.delete({
+          where: {
+            id: chapterId,
+          },
+        });
+
+        return { courseId: chapter.courseId };
+      } catch (error: any) {
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: error });
+      }
+    }),
 });

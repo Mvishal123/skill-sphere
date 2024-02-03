@@ -7,6 +7,7 @@ import ChapterSection from "@/components/course/main_course/chapter-form";
 import CourseActionButton from "@/components/course/main_course/course-action-button";
 import DescriptionForm from "@/components/course/main_course/description-form";
 import ImageForm from "@/components/course/main_course/image-form";
+import PriceForm from "@/components/course/main_course/price-form";
 import TitleForm from "@/components/course/main_course/title-form";
 import IconBadge from "@/components/icon-badge";
 import MaxWidthContainer from "@/components/max-width-container";
@@ -62,7 +63,7 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
           </div>
 
           {/* forms */}
-          <div className="grid  md:grid-cols-2 mt-12 pb-6">
+          <div className="grid lg:grid-cols-2 mt-12 pb-6 space-x-10">
             {/* Grid col 1 */}
             <div className="flex-1">
               <div className="flex items-center gap-3">
@@ -71,7 +72,7 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
                   Customize your course
                 </h1>
               </div>
-              <div className="flex flex-col mt-8 max-w-[600px] space-y-8">
+              <div className="flex flex-col mt-8 space-y-8">
                 <TitleForm
                   initialValue={course?.title!}
                   courseId={course?.id!}
@@ -96,11 +97,19 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
                   Customize your course
                 </h1>
               </div>
-              <div className="flex flex-col mt-8 max-w-[600px] space-y-8">
+              <div className="flex flex-col mt-8  space-y-8">
                 <ChapterSection
                   initialValue={course?.Chapter!}
                   courseId={courseId!}
                 />
+
+                <div className="flex items-center gap-3">
+                  <IconBadge icon={ListTodo} status={false} />
+                  <h1 className="font-bold md:text-xl lg:text-2xl">
+                    Customize your course
+                  </h1>
+                </div>
+                <PriceForm initialValue={course?.cost!} courseId={courseId} />
               </div>
             </div>
           </div>

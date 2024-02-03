@@ -37,7 +37,7 @@ model Course {
   id          String  @id @default(cuid())
   title       String
   description String? @db.Text
-  cost        String?
+  cost        Float?
   image       String?
   category    String?
 

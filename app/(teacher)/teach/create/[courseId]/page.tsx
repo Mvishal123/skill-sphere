@@ -1,7 +1,6 @@
 // "use client"
+import { db } from "@/db";
 
-import { trpc } from "@/app/_trpc/trpc-client";
-import AlertBanner from "@/components/course/alert-banner";
 import CategoryForm from "@/components/course/main_course/category-form";
 import ChapterSection from "@/components/course/main_course/chapter-form";
 import CourseActionButton from "@/components/course/main_course/course-action-button";
@@ -10,13 +9,23 @@ import DifficultyForm from "@/components/course/main_course/diffiiculty-form";
 import ImageForm from "@/components/course/main_course/image-form";
 import PriceForm from "@/components/course/main_course/price-form";
 import TitleForm from "@/components/course/main_course/title-form";
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+import AlertBanner from "@/components/course/alert-banner";
 import IconBadge from "@/components/icon-badge";
 import MaxWidthContainer from "@/components/max-width-container";
-import { db } from "@/db";
+
 import {
   BarChart,
   DollarSignIcon,
   Ghost,
+  Info,
   LayoutDashboard,
   ListTodo,
 } from "lucide-react";
@@ -72,9 +81,24 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-3xl font-bold">Create a new course</h1>
-              <p className="text-md text-slate-500">
-                Fields completed {completedFields}/{requiredField.length}{" "}
-              </p>
+              <div className="flex items-center gap-2">
+                <span>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <Info className="text-muted-foreground w-4 h-4" />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        Fill all the values and publish atleast 1 chapter to
+                        upload the course.
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </span>
+                <p className="text-md text-slate-500">
+                  Fields completed {completedFields}/{requiredField.length}
+                </p>
+              </div>
             </div>
             <CourseActionButton
               courseId={courseId}

@@ -61,6 +61,7 @@ const DifficultyForm = ({ initialValue, courseId }: DifficultyProps) => {
       courseId,
     });
   };
+  
 
   const handleEdit = () => setEdit((prev) => !prev);
 

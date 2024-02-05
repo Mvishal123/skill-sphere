@@ -30,10 +30,41 @@ const CourseActionButton = ({
         toast.error(message);
       },
     });
+
+  const { mutate: publishCourse, isPending: isPublishing } =
+    trpc.course.publishCourse.useMutation({
+      onSuccess: () => {
+        toast.success("Course published successfully");
+        router.refresh();
+      },
+      onError: ({ message }) => {
+        toast.error(message);
+      },
+    });
+
+  const { mutate: unpublishCourse, isPending: isUnpublishing } =
+    trpc.course.unpublishCourse.useMutation({
+      onSuccess: () => {
+        toast.success("Course unpublished successfully");
+        router.refresh();
+      },
+      onError: ({ message }) => {
+        toast.error(message);
+      },
+    });
+
   return (
     <div className="flex items-center gap-4">
-      <Button variant="secondary" disabled={!isCompleted}>
-        Publish
+      <Button
+        variant="secondary"
+        disabled={!isCompleted || isPending || isUnpublishing || isPublishing}
+        onClick={() => {
+          isPublished
+            ? unpublishCourse({ courseId })
+            : publishCourse({ courseId });
+        }}
+      >
+        {isPublished ? "Unpublish" : "Publish"}
       </Button>
       <Button size="sm" onClick={() => deleteCourse({ courseId })}>
         {isPending ? (

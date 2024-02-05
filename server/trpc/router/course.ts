@@ -137,4 +137,77 @@ export const courseRouter = router({
 
     return categories;
   }),
+
+  publishCourse: adminProcedure
+    .input(
+      z.object({
+        courseId: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const session = await getServerAuthSession();
+
+      if (!session?.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "Unauthourized action",
+        });
+      }
+
+      const { courseId } = input;
+
+      try {
+        await db.course.update({
+          where: {
+            id: courseId,
+            userId: session.userId,
+          },
+          data: {
+            isPublished: true,
+          },
+        });
+        return "Course has been published successfully";
+      } catch (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Something unexpected happened while updating the course",
+        });
+      }
+    }),
+    unpublishCourse: adminProcedure
+    .input(
+      z.object({
+        courseId: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const session = await getServerAuthSession();
+
+      if (!session?.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "Unauthourized action",
+        });
+      }
+
+      const { courseId } = input;
+
+      try {
+        await db.course.update({
+          where: {
+            id: courseId,
+            userId: session.userId,
+          },
+          data: {
+            isPublished: false,
+          },
+        });
+        return "Course has been unpublished successfully";
+      } catch (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Something unexpected happened while updating the course",
+        });
+      }
+    }),
 });

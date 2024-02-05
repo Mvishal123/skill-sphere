@@ -192,7 +192,7 @@ export const chapterRouter = router({
         return "Chapter has been unpublished successfully";
       } catch (error) {
         throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
+        code: "INTERNAL_SERVER_ERROR",
           message: "Something unexpected happened while updating the course",
         });
       }

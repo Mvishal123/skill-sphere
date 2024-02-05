@@ -1,4 +1,3 @@
-// "use client"
 import { db } from "@/db";
 
 import CategoryForm from "@/components/course/main_course/category-form";
@@ -33,7 +32,6 @@ import {
 const CoursePage = async ({ params }: { params: { courseId: string } }) => {
   const { courseId } = params;
 
-  // const {data: course} = trpc.course.getCourse.useQuery({courseId})
   const course = await db.course.findFirst({
     where: {
       id: courseId,
@@ -71,10 +69,12 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
   }
   return (
     <div>
-      <AlertBanner
-        label="This course is not yet published and will not be visible to the users"
-        type="warning"
-      />
+      {!isPublished && (
+        <AlertBanner
+          label="This course is not yet published and will not be visible to the users"
+          type="warning"
+        />
+      )}
       <div className="pt-10">
         <MaxWidthContainer>
           {/*  */}

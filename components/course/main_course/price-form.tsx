@@ -98,7 +98,7 @@ const PriceForm = ({ initialValue, courseId }: priceProps) => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input  inputMode="numeric" type="number" {...field} />
+                        <Input type="number" {...field} />
                       </FormControl>
                     </FormItem>
                   )}

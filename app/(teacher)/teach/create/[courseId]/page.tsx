@@ -76,7 +76,7 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
           </div>
 
           {/* forms */}
-          <div className="grid lg:grid-cols-2 mt-12 pb-6 space-x-10">
+          <div className="grid space-y-10 lg:space-y-0 lg:grid-cols-2 mt-12 pb-6 space-x-0 lg:space-x-10">
             {/* Grid col 1 */}
             <div className="flex-1">
               <div className="flex items-center gap-3">
@@ -103,7 +103,7 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
             </div>
 
             {/*  Grid col 2 */}
-            <div className="flex-1">
+            <div className="flex-1 mr-0">
               <div className="flex items-center gap-3">
                 <IconBadge icon={ListTodo} status={false} />
                 <h1 className="font-bold md:text-xl lg:text-2xl">

@@ -31,18 +31,19 @@ const PriceForm = ({ initialValue, courseId }: priceProps) => {
   const form = useForm<z.infer<typeof courseSchema>>({
     resolver: zodResolver(courseSchema),
     defaultValues: {
-      cost: initialValue | 0,
+      cost: initialValue,
     },
   });
 
-  console.log(form.formState);
+  console.log(typeof form.getValues("cost"));
+  
   
 
   const { mutate: updateCourse, isPending } =
     trpc.course.updateCourse.useMutation({
       onSuccess: () => {
         toast.success("Price updated");
-        utils.invalidate();
+        router.refresh();
       },
       onError: ({ message }) => {
         toast.error(message);
@@ -98,7 +99,7 @@ const PriceForm = ({ initialValue, courseId }: priceProps) => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input type="number" {...field} />
+                        <Input type="text" inputMode="numeric" {...field} />
                       </FormControl>
                     </FormItem>
                   )}

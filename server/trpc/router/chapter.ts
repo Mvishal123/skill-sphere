@@ -123,4 +123,78 @@ export const chapterRouter = router({
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: error });
       }
     }),
+
+  publishChapter: adminProcedure
+    .input(
+      z.object({
+        chapterId: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const session = await getServerAuthSession();
+
+      if (!session?.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "Unauthourized action",
+        });
+      }
+
+      const { chapterId } = input;
+
+      try {
+        await db.chapter.update({
+          where: {
+            id: chapterId,
+          },
+          data: {
+            isPublished: true,
+          },
+        });
+        return "Chapter has been published successfully";
+
+      } catch (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Something unexpected happened while updating the course",
+        });
+      }
+    }),
+
+  unpublishChapter: adminProcedure
+    .input(
+      z.object({
+        chapterId: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const session = await getServerAuthSession();
+
+      if (!session?.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "Unauthourized action",
+        });
+      }
+
+      const { chapterId } = input;
+
+      try {
+        await db.chapter.update({
+          where: {
+            id: chapterId,
+          },
+          data: {
+            isPublished: false,
+          },
+        });
+
+        return "Chapter has been unpublished successfully";
+      } catch (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Something unexpected happened while updating the course",
+        });
+      }
+    }),
 });

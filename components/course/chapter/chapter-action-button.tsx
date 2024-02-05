@@ -30,10 +30,40 @@ const ChapterActionButton = ({
         toast.error(message);
       },
     });
+
+  const { mutate: publishChapter, isPending: isPublishing } =
+    trpc.chapter.publishChapter.useMutation({
+      onSuccess: (res) => {
+        toast.success(res);
+        router.refresh();
+      },
+      onError: ({ message }) => toast.error(message),
+    });
+
+  const { mutate: unpublishChapter, isPending: isUnpublishing } =
+    trpc.chapter.unpublishChapter.useMutation({
+      onSuccess: (res) => {
+        toast.success(res);
+        router.refresh();
+      },
+      onError: ({ message }) => toast.error(message),
+    });
   return (
     <div className="flex items-center gap-4">
-      <Button variant="secondary" disabled={!isCompleted}>
-        Publish
+      <Button
+        variant="secondary"
+        disabled={isPublishing || isUnpublishing}
+        onClick={() => {
+          isPublished
+            ? unpublishChapter({
+                chapterId,
+              })
+            : publishChapter({
+                chapterId,
+              });
+        }}
+      >
+        {isPublished ? "Unpublish" : "Publish"}
       </Button>
       {/* TODO: onclick */}
       <Button size="sm" onClick={() => deleteChapter({ chapterId })}>

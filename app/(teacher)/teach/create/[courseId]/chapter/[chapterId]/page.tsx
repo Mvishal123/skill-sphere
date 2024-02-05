@@ -1,4 +1,6 @@
-// "use client"
+import { db } from "@/db";
+import Link from "next/link";
+
 
 import AlertBanner from "@/components/course/alert-banner";
 import ChapterAcessForm from "@/components/course/chapter/chapter-access-form";
@@ -9,11 +11,13 @@ import ChapterVideoForm from "@/components/course/chapter/chapter-video-form";
 import IconBadge from "@/components/icon-badge";
 import MaxWidthContainer from "@/components/max-width-container";
 import { Button } from "@/components/ui/button";
-import VideoPlayer from "@/components/video-player";
-// import Player from "@/components/video-player";
-import { db } from "@/db";
-import { ArrowLeft, LayoutDashboard } from "lucide-react";
-import Link from "next/link";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { ArrowLeft, Info, LayoutDashboard } from "lucide-react";
 
 const CoursePage = async ({
   params,
@@ -29,21 +33,17 @@ const CoursePage = async ({
     },
   });
 
-  const requiredField = [
-    chapter?.title,
-    chapter?.description,
-    // add video
-  ];
+  const requiredField = [chapter?.title, chapter?.description, chapter?.video];
 
   const completedFields = requiredField.filter(Boolean).length;
   const isCompleted = requiredField.length === completedFields;
-  const isPublished = !!chapter?.isPublished;
+
   return (
     <div>
-      <AlertBanner
-        label="This course is not yet published and will not be visible to the users"
+      {!chapter?.isPublished && <AlertBanner
+        label="This chapter is not yet published and will not be visible to the users"
         type="warning"
-      />
+      />}
       <div className="pt-10">
         <MaxWidthContainer>
           <Button asChild variant="link">
@@ -55,9 +55,21 @@ const CoursePage = async ({
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-3xl font-bold">Create chapter</h1>
-              <p className="text-md text-slate-500">
-                {/* Fields completed {completedFields}/{requiredField.length}{" "} */}
-              </p>
+              <div className="flex items-center gap-2">
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Info className="text-muted-foreground w-4 h-4" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      Fill all the fields to publish the chapter.
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+                <p className="text-md text-slate-500">
+                  Fields completed {completedFields}/{requiredField.length}{" "}
+                </p>
+              </div>
             </div>
             <ChapterActionButton
               isPublished={chapter?.isPublished!}

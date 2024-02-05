@@ -47,6 +47,8 @@ model Course {
 
   isPublished Boolean @default(false)
 
+  // TODO: add createdAt & udpatedAt
+
   //add Schema relation
   //chapters, Reviews
   CourseReview CourseReview[]

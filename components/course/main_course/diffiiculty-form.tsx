@@ -1,27 +1,14 @@
 "use client";
 
-import { PencilIcon } from "lucide-react";
-import { useState } from "react";
-import { cn } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { trpc } from "@/app/_trpc/trpc-client";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { trpc } from "@/app/_trpc/trpc-client";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { PencilIcon } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 import {
   Select,
@@ -31,15 +18,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { courseSchema } from "@/schemas";
+import { CourseDifficulty } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-interface CategoryProps {
-  initialValue: string;
+interface DifficultyProps {
+  initialValue: CourseDifficulty;
   courseId: string;
 }
 
-const CategoryForm = ({ initialValue, courseId }: CategoryProps) => {
+const DifficultyForm = ({ initialValue, courseId }: DifficultyProps) => {
   const router = useRouter();
   const [edit, setEdit] = useState(false);
   const [open, setOpen] = useState(false);
@@ -49,15 +37,15 @@ const CategoryForm = ({ initialValue, courseId }: CategoryProps) => {
   const form = useForm<z.infer<typeof courseSchema>>({
     resolver: zodResolver(courseSchema),
     defaultValues: {
-      category: initialValue,
+      difficulty: initialValue,
     },
   });
 
   const { mutate: updateCourse, isPending } =
     trpc.course.updateCourse.useMutation({
       onSuccess: () => {
-        toast.success("Title updated");
-        utils.invalidate();
+        toast.success("Difficulty level updated");
+        router.refresh();
       },
       onError: ({ message }) => {
         toast.error(message);
@@ -67,13 +55,7 @@ const CategoryForm = ({ initialValue, courseId }: CategoryProps) => {
       },
     });
 
-  const { data: categories } = trpc.course.getCategories.useQuery();
-
-  //   console.log({categories});
-
   const onSubmit = async (data: z.infer<typeof courseSchema>) => {
-    console.log("SUbmiting...");
-
     updateCourse({
       values: data,
       courseId,
@@ -82,11 +64,26 @@ const CategoryForm = ({ initialValue, courseId }: CategoryProps) => {
 
   const handleEdit = () => setEdit((prev) => !prev);
 
+  const difficultySeed = [
+    {
+      value: CourseDifficulty.BEGINNER,
+      label: "Beginner",
+    },
+    {
+      value: CourseDifficulty.INTERMEDIATE,
+      label: "Intermediate",
+    },
+    {
+      value: CourseDifficulty.ADVANCED,
+      label: "Advanced",
+    },
+  ];
+
   return (
     <div>
       <div className="w-full bg-slate-100 rounded-lg px-4 py-2 shadow-md">
         <div className="flex justify-between">
-          <h1 className="text-lg">Course category</h1>
+          <h1 className="text-lg">Course difficulty</h1>
           <Button
             size="sm"
             variant="ghost"
@@ -108,7 +105,7 @@ const CategoryForm = ({ initialValue, courseId }: CategoryProps) => {
                 !initialValue && "italic text-slate-500 text-sm font-normal"
               )}
             >
-              {initialValue ?? "Category not selected"}
+              {initialValue ?? "Difficulty not selected"}
             </div>
           )}
           {edit && (
@@ -116,7 +113,7 @@ const CategoryForm = ({ initialValue, courseId }: CategoryProps) => {
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 <FormField
                   control={form.control}
-                  name="category"
+                  name="difficulty"
                   render={({ field }) => (
                     <FormItem>
                       <Select
@@ -125,14 +122,14 @@ const CategoryForm = ({ initialValue, courseId }: CategoryProps) => {
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select a category to display" />
+                            <SelectValue placeholder="Select difficulty level" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {categories?.map((course) => {
+                          {difficultySeed?.map((dif) => {
                             return (
-                              <SelectItem value={course.category}>
-                                {course.category}
+                              <SelectItem value={dif.value}>
+                                {dif.label}
                               </SelectItem>
                             );
                           })}
@@ -155,4 +152,4 @@ const CategoryForm = ({ initialValue, courseId }: CategoryProps) => {
   );
 };
 
-export default CategoryForm;
+export default DifficultyForm;

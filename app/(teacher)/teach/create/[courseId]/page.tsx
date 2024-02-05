@@ -6,13 +6,20 @@ import CategoryForm from "@/components/course/main_course/category-form";
 import ChapterSection from "@/components/course/main_course/chapter-form";
 import CourseActionButton from "@/components/course/main_course/course-action-button";
 import DescriptionForm from "@/components/course/main_course/description-form";
+import DifficultyForm from "@/components/course/main_course/diffiiculty-form";
 import ImageForm from "@/components/course/main_course/image-form";
 import PriceForm from "@/components/course/main_course/price-form";
 import TitleForm from "@/components/course/main_course/title-form";
 import IconBadge from "@/components/icon-badge";
 import MaxWidthContainer from "@/components/max-width-container";
 import { db } from "@/db";
-import { Ghost, LayoutDashboard, ListTodo } from "lucide-react";
+import {
+  BarChart,
+  DollarSignIcon,
+  Ghost,
+  LayoutDashboard,
+  ListTodo,
+} from "lucide-react";
 
 const CoursePage = async ({ params }: { params: { courseId: string } }) => {
   const { courseId } = params;
@@ -34,6 +41,7 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
     course?.category,
     course?.cost,
     course?.difficulty,
+    course?.Chapter.some((chapter) => chapter.isPublished),
   ];
 
   const completedFields = requiredField.filter(Boolean).length;
@@ -117,12 +125,20 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
                 />
 
                 <div className="flex items-center gap-3">
-                  <IconBadge icon={ListTodo} status={false} />
-                  <h1 className="font-bold md:text-xl lg:text-2xl">
-                    Customize your course
-                  </h1>
+                  <IconBadge icon={DollarSignIcon} status={false} />
+                  <h1 className="font-bold md:text-xl lg:text-2xl">Pricing</h1>
                 </div>
                 <PriceForm initialValue={course?.cost!} courseId={courseId} />
+                <div className="flex items-center gap-3">
+                  <IconBadge icon={BarChart} status={false} />
+                  <h1 className="font-bold md:text-xl lg:text-2xl">
+                    Difficulty
+                  </h1>
+                </div>
+                <DifficultyForm
+                  initialValue={course?.difficulty!}
+                  courseId={courseId}
+                />
               </div>
             </div>
           </div>

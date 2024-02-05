@@ -12,7 +12,7 @@ import TitleForm from "@/components/course/main_course/title-form";
 import IconBadge from "@/components/icon-badge";
 import MaxWidthContainer from "@/components/max-width-container";
 import { db } from "@/db";
-import { LayoutDashboard, ListTodo } from "lucide-react";
+import { Ghost, LayoutDashboard, ListTodo } from "lucide-react";
 
 const CoursePage = async ({ params }: { params: { courseId: string } }) => {
   const { courseId } = params;
@@ -39,6 +39,19 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
   const completedFields = requiredField.filter(Boolean).length;
   const isCompleted = requiredField.length === completedFields;
   const isPublished = !!course?.isPublished;
+
+  if (!course) {
+    return (
+      <div className="h-[calc(100vh-4rem)] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Ghost className="h-24 w-24 text-muted-foreground" strokeWidth={1} />
+          <p className="text-2xl text-muted-foreground cursor-default">
+            No course
+          </p>
+        </div>
+      </div>
+    );
+  }
   return (
     <div>
       <AlertBanner

@@ -21,7 +21,6 @@ const ChapterVideoForm = ({
   const [edit, setEdit] = useState(false);
   const router = useRouter();
 
-  console.log({ chapterId, courseId });
 
   const handleSubmit = async ({ videoUrl }: { videoUrl: string }) => {};
   const handleEdit = () => setEdit((prev) => !prev);

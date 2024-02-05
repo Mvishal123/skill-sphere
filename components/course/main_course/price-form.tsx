@@ -35,7 +35,6 @@ const PriceForm = ({ initialValue, courseId }: priceProps) => {
     },
   });
 
-  console.log(typeof form.getValues("cost"));
   
   
 
@@ -53,7 +52,6 @@ const PriceForm = ({ initialValue, courseId }: priceProps) => {
       },
     });
   const onSubmit = async (data: z.infer<typeof courseSchema>) => {
-    console.log("Price updating");
 
     updateCourse({
       values: data,

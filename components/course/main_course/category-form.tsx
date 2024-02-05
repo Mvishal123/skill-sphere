@@ -69,10 +69,8 @@ const CategoryForm = ({ initialValue, courseId }: CategoryProps) => {
 
   const { data: categories } = trpc.course.getCategories.useQuery();
 
-  //   console.log({categories});
 
   const onSubmit = async (data: z.infer<typeof courseSchema>) => {
-    console.log("SUbmiting...");
 
     updateCourse({
       values: data,

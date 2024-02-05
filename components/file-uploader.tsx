@@ -23,7 +23,6 @@ const FileUploader = ({
         onChange(res?.[0].url);
       }}
       onUploadError={(error) => {
-        console.log("[UPLOADTHING COURSE]:", error.message);
       }}
     />
   );

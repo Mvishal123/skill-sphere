@@ -31,7 +31,6 @@ const courseAuth = async (courseId: string) => {
 };
 
 const videoAuth = async (courseId: string, chapterId: string) => {
-  console.log("Inside middleware");
 
   const session = await getServerAuthSession();
 
@@ -39,7 +38,6 @@ const videoAuth = async (courseId: string, chapterId: string) => {
     throw new UploadThingError("You must be logged in to upload a file");
   }
 
-  console.log({ courseId, chapterId });
 
   const course = await db.course.findUnique({
     where: {
@@ -91,7 +89,6 @@ export const ourFileRouter = {
 
         return file;
       } catch (error) {
-        console.log("[UPLOADTHING COURSE IMAGE ERROR]:", error);
         throw new UploadThingError(
           "Something is wrong in our server. Try again later..."
         );
@@ -119,7 +116,6 @@ export const ourFileRouter = {
           },
         });
       } catch (error: any) {
-        console.log("[VIDEO UPLOAD ERROR]:", error);
 
         throw new UploadThingError("Something went wrong when uploading...");
       }

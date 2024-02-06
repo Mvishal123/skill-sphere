@@ -26,6 +26,7 @@ const config: import("tailwindcss").Config = withUt({
     "./src/**/*.{ts,tsx}",
   ],
   prefix: "",
+  scrollbar: ["webkit"],
   theme: {
     container: {
       center: true,

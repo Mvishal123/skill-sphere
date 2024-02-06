@@ -8,6 +8,7 @@ import qs from "query-string";
 
 import { cn } from "@/lib/utils";
 import { Compass } from "lucide-react";
+import { Input } from "../ui/input";
 
 const Sidebar = () => {
   //   const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -62,11 +63,16 @@ const Sidebar = () => {
       )} */}
 
       {/* Contents */}
-      <div className="h-full w-60 border-r overflow-y-auto">
+      <div className="h-full w-60 border-r overflow-y-auto scrollbar-thumb-gray-500 scrollbar-track-gray-200 scrollbar-thumb-rounded hover:scrollbar-thumb-gray-700">
         <div className="p-3">
-          <div className="flex items-center gap-2 pl-2">
+          <div className="flex items-center gap-2 pl-3">
             <Compass />
             <h1 className="text-xl font-bold"> Explore</h1>
+          </div>
+
+          {/* TODO: add a seperate component for search functionality */}
+          <div className="mt-4 pl-3">
+            <Input placeholder="Search..." />
           </div>
           <ul className="space-y-2 mt-4">
             {categories?.map((category) => {

@@ -74,3 +74,23 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Scroll bar */
+
+
+/* For webkit (Chrome, Safari, etc.) */
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Change this to the color you prefer */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; /* Change this to the color you prefer */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Change this to the color you prefer */
+}

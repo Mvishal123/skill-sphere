@@ -63,7 +63,7 @@ model CourseReview {
 
   review    String @db.Text
   studentId String
-  rating    String
+  rating    Float
 
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)

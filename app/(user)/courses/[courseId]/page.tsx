@@ -119,7 +119,7 @@ const Course = async ({ params }: { params: CourseProps }) => {
             <Accordion type="multiple">
               {course?.Chapter.map((chapter) => {
                 return (
-                  <AccordionItem value={chapter.title!}>
+                  <AccordionItem value={chapter.title!} key={chapter.id}>
                     <AccordionTrigger>{chapter.title}</AccordionTrigger>
                     <AccordionContent>
                       <div

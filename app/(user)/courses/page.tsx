@@ -38,7 +38,7 @@ const CoursePage = async ({ searchParams }: SearchParamsProps) => {
   return (
     <div className="">
       {/* Sidebar*/}
-      <div className="fixed h-full hidden md:inline-block">
+      <div className="fixed h-full hidden md:block">
         <Sidebar />
       </div>
 
@@ -46,7 +46,7 @@ const CoursePage = async ({ searchParams }: SearchParamsProps) => {
         <div className="p-10">
           <h1 className="text-3xl font-bold">Courses</h1>
         </div>
-        <div className="px-10">
+        <div className="px-4 md:px-10">
           {!courses && (
             <div className="h-[200px] w-full flex flex-col justify-end items-center text-xl gap-2">
               <Ghost className="h-10 w-10" />

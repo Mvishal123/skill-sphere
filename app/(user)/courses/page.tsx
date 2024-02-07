@@ -68,7 +68,7 @@ const CoursePage = async ({ searchParams }: SearchParamsProps) => {
                       category={course.category!}
                       price={course.cost!}
                       imageUrl={course.image!}
-                      rating={4.5}
+                      rating={rating}
                     />
                   </div>  
                 );

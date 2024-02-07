@@ -14,6 +14,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import UserCourseActionButton from "@/components/course/user-course-action-button";
 
 interface CourseProps {
   courseId: string;
@@ -85,12 +86,7 @@ const Course = async ({ params }: { params: CourseProps }) => {
                     />
                   </div>
                 </div>
-                <div className="mt-4 space-y-2">
-                  <Button className="w-full bg-slate-800">Enroll now</Button>
-                  <Button className="w-full" variant={"outline"}>
-                    Add to cart
-                  </Button>
-                </div>
+                <UserCourseActionButton courseId={course?.id!} />
               </div>
             </div>
           </div>
@@ -101,17 +97,7 @@ const Course = async ({ params }: { params: CourseProps }) => {
       <MaxWidthContainer>
         <div className=" md:max-w-[50%] mt-72 md:mt-12">
           <h1 className="text-3xl font-bold">About</h1>
-          <div className="pt-2">
-            {course?.description}
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste
-            officia placeat debitis dolorum adipisci reprehenderit aliquid,
-            molestiae ipsam consequatur molestias delectus! Qui earum recusandae
-            non, repudiandae ad mollitia nesciunt illum? In iusto quam
-            distinctio! Nam eligendi aliquam provident quis dolores, facilis
-            voluptas dolor. Dicta illum quibusdam itaque voluptas explicabo vel
-            alias cum quas nobis ea, recusandae error, ullam molestias
-            accusamus.
-          </div>
+          <div className="pt-2">{course?.description}</div>
         </div>
         <div className="pt-6">
           <h1 className="text-3xl font-bold">Chapters</h1>

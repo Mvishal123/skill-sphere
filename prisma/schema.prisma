@@ -52,8 +52,9 @@ model Course {
 
   //add Schema relation
   //chapters, Reviews
-  CourseReview CourseReview[]
-  Chapter      Chapter[]
+  CourseReview   CourseReview[]
+  Chapter        Chapter[]
+  PurchaseCourse PurchaseCourse[]
 }
 
 model CourseReview {
@@ -92,6 +93,8 @@ model PurchaseCourse {
   id       String @id @default(cuid())
   userId   String
   courseId String
+
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 }
 
 model StripeCustomer {

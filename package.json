@@ -52,6 +52,7 @@
     "react-player": "^2.14.1",
     "react-quill": "^2.0.0",
     "sonner": "^1.4.0",
+    "stripe": "^14.15.0",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
     "typed.js": "^2.1.0",

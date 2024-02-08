@@ -1,9 +1,9 @@
-import React from "react";
-import { Card, CardContent } from "../ui/card";
+import { currencyConverter } from "@/lib/currency-converter";
 import { Rating } from "@mui/material";
 import Image from "next/image";
-import { currencyConverter } from "@/lib/currency-converter";
 import Link from "next/link";
+import { Button } from "../ui/button";
+import { Card } from "../ui/card";
 
 interface CourseCardProps {
   id: string;
@@ -12,7 +12,9 @@ interface CourseCardProps {
   category: string;
   price: number;
   rating: number;
+  isPurchased: boolean;
 }
+
 const CourseCard = ({
   id,
   category,
@@ -20,9 +22,10 @@ const CourseCard = ({
   price,
   rating,
   title,
+  isPurchased,
 }: CourseCardProps) => {
   return (
-    <Card className="p-1 w-[300px] h-[260px]">
+    <Card className="p-1 max-w-full md:max-w-[300px] pb-1">
       <Link href={`/courses/${id}`}>
         <div className="aspect-video relative overflow-hidden border rounded-lg">
           <Image
@@ -32,18 +35,32 @@ const CourseCard = ({
             className="rounded-md object-center"
           />
         </div>
-        <div>
-          <h1 className="text-lg font-bold mt-1 line-clamp-2">{title}</h1>
-          <span className="text-xs font-semibold text-slate-500">
+        <div className="mt-2 flex flex-col items-start">
+          <h1 className="text-base md:text-lg font-bold line-clamp-1">
+            {title}
+          </h1>
+          <span className="text-xs md:text-sm font-semibold text-slate-500">
             {category}
           </span>
         </div>
-        <div className="flex justify-between mt-2">
-          <div className="font-semibold">{currencyConverter(price)}</div>
-          <div>
-            <Rating size="small" value={rating} readOnly />
+
+        {!isPurchased && (
+          <div className="flex justify-between mt-2">
+            <div className="font-semibold text-xs md:text-sm">
+              {currencyConverter(price)}
+            </div>
+            <div>
+              <Rating size="small" value={rating} readOnly />
+            </div>
           </div>
-        </div>
+        )}
+        {isPurchased && (
+          <div className="mt-2">
+            <Button asChild className="bg-green-700 h-8 w-full" size="sm">
+              Hey
+            </Button>
+          </div>
+        )}
       </Link>
     </Card>
   );

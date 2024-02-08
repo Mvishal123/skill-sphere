@@ -43,40 +43,37 @@ const Course = async ({ params }: { params: CourseProps }) => {
 
   return (
     <div>
-      <div className="border-b pt-4 py-4 h-60 bg-slate-800 relative -z-0">
+      <div className="border-b pt-4 py-4 bg-slate-800 h-60 w-screen">
         <MaxWidthContainer>
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 w-full h-full b">
-            <div className="col-span-2 flex flex-col justify-between">
-              <div className="pr-12">
-                <h1 className="text-4xl font-sans font-bold mb-2 text-white line-clamp-2">
-                  {course?.title}{" "}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="md:col-span-2">
+              <div className="pr-6">
+                <h1 className="text-3xl font-bold text-white mb-2 line-clamp-2">
+                  {course?.title}
                 </h1>
-                <Badge variant={"outline"} className="text-slate-400">
+                <Badge variant="outline" className="text-slate-400">
                   {course?.category}
                 </Badge>
-                <div className="flex gap-2 items-center mt-2">
-                  {rating.count > 0 && (
+                <div className="flex items-center mt-2">
+                  {rating.count > 0 ? (
                     <Rating value={rating.rating} readOnly size="small" />
-                  )}
-                  {rating.count === 0 && (
+                  ) : (
                     <p className="italic text-sm text-slate-300">No reviews</p>
                   )}
-                  <span className="text-slate-300 text-xs ">
+                  <span className="text-slate-300 text-xs ml-1">
                     ({rating.count})
                   </span>
                 </div>
               </div>
-              <div className="flex flex-col">
-                <div className="text-xl font-bold italic text-white mt-4">
+              <div className="flex items-center mt-4">
+                <div className="text-xl font-bold italic text-white">
                   {currencyConverter(course?.cost as number)}
                 </div>
               </div>
             </div>
-
-            {/* Image section */}
-            <div className="relative">
-              <div className="md:absolute translate-y-10 p-1 md:justify-center lg:translate-x-0">
-                <div className=" bg-slate-400/50 border border-gray-400 rounded-lg w-[350px] md:w-[300px] lg:w-[400px] p-1">
+            <div className="relative flex justify-center md:justify-end">
+              <div className="md:absolute translate-y-3 md:translate-y-10 p-1 md:justify-center lg:translate-x-0">
+                <div className=" bg-slate-400/50 border border-gray-400 rounded-lg w-[300px] md:w-[300px] lg:w-[400px] p-1">
                   <div className="bg-slate-500 col-span-1 rounded-lg aspect-video relative">
                     <Image
                       src={course?.image as string}
@@ -93,18 +90,18 @@ const Course = async ({ params }: { params: CourseProps }) => {
         </MaxWidthContainer>
       </div>
 
-      {/* contents */}
+      {/* Contents */}
       <MaxWidthContainer>
-        <div className=" md:max-w-[50%] mt-72 md:mt-12">
-          <h1 className="text-3xl font-bold">About</h1>
-          <div className="pt-2">{course?.description}</div>
-        </div>
-        <div className="pt-6">
-          <h1 className="text-3xl font-bold">Chapters</h1>
-          <div className="w-[80vw] md:w-[50vw]">
-            <Accordion type="multiple">
-              {course?.Chapter.map((chapter) => {
-                return (
+        <div className="md:max-w-[50%] mt-72 md:mt-12">
+          <div className="">
+            <h2 className="text-2xl font-bold">About</h2>
+            <div className="pt-2">{course?.description}</div>
+          </div>
+          <div className="pt-6">
+            <h2 className="text-2xl font-bold">Chapters</h2>
+            <div className="w-full">
+              <Accordion type="multiple">
+                {course?.Chapter.map((chapter) => (
                   <AccordionItem value={chapter.title!} key={chapter.id}>
                     <AccordionTrigger>{chapter.title}</AccordionTrigger>
                     <AccordionContent>
@@ -115,9 +112,9 @@ const Course = async ({ params }: { params: CourseProps }) => {
                       />
                     </AccordionContent>
                   </AccordionItem>
-                );
-              })}
-            </Accordion>
+                ))}
+              </Accordion>
+            </div>
           </div>
         </div>
       </MaxWidthContainer>
@@ -126,12 +123,3 @@ const Course = async ({ params }: { params: CourseProps }) => {
 };
 
 export default Course;
-
-{
-  /* <AccordionItem value="item-1">
-                <AccordionTrigger>Is it accessible?</AccordionTrigger>
-                <AccordionContent>
-                  Yes. It adheres to the WAI-ARIA design pattern.
-                </AccordionContent>
-              </AccordionItem> */
-}

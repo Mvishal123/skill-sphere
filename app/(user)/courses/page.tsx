@@ -1,6 +1,13 @@
 import CourseCard from "@/components/course/course-card";
 import Sidebar from "@/components/course/sidebar";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { db } from "@/db";
+import { getServerAuthSession } from "@/utils/data/getServerAuthSession";
 import { Ghost } from "lucide-react";
 import React from "react";
 
@@ -11,7 +18,9 @@ interface SearchParamsProps {
 }
 
 const CoursePage = async ({ searchParams }: SearchParamsProps) => {
-  // TODO: do not render already purchased courses
+  const session = await getServerAuthSession();
+  console.log({session});
+  
 
   const splitBySpace = searchParams.category
     ? searchParams.category.split(" ")
@@ -30,50 +39,92 @@ const CoursePage = async ({ searchParams }: SearchParamsProps) => {
           rating: true,
         },
       },
+      PurchaseCourse: {
+        select: {
+          courseId: true,
+        },
+      },
     },
   });
 
-  console.log({ courses });
+  let user, purchasedCourses: any;
+  if (session?.userId) {
+    console.log("inside");
+    user = await db.user.findFirst({
+      where: {
+        id: session.id,
+      },
+      include: {
+        PurchaseCourse: {
+          select: {
+            courseId: true,
+          },
+        },
+      },
+    });
+
+    purchasedCourses = user?.PurchaseCourse ? user.PurchaseCourse : [];
+   
+    
+  }
 
   return (
-    <div className="">
+    <div className="flex flex-col lg:flex-row">
       {/* Sidebar*/}
-      <div className="fixed h-full hidden md:block">
+      <div className="lg:w-1/4 hidden lg:block">
         <Sidebar />
       </div>
 
-      <div className="px-10 md:pl-60 h-full">
-        <div className="p-10">
+      <div className="lg:w-3/4 px-4  h-full">
+        <div className="p-4 lg:p-10">
           <h1 className="text-3xl font-bold">Courses</h1>
         </div>
-        <div className="px-4 md:px-10">
-          {!courses && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full ">
+          {!courses ? (
             <div className="h-[200px] w-full flex flex-col justify-end items-center text-xl gap-2">
               <Ghost className="h-10 w-10" />
-              <p> No course </p>
+              <p>No courses found</p>
             </div>
-          )}
-          {courses && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-              {courses.map((course) => {
-                let rating = 0;
-                course.CourseReview.forEach((review) => {
-                  rating += review.rating;
-                });
-                return (
-                  <div key={course.id} className="w-200px h-150px">
-                    <CourseCard
-                      id={course.id}
-                      title={course.title}
-                      category={course.category!}
-                      price={course.cost!}
-                      imageUrl={course.image!}
-                      rating={rating}
-                    />
-                  </div>  
-                );
-              })}
-            </div>
+          ) : (
+            courses.map((course) => {
+              let rating = 0;
+              course.CourseReview.forEach((review) => {
+                rating += review.rating;
+              });
+              const isPurchased = !!purchasedCourses.find(
+                (pur_course: { courseId: string }) => {
+                  return course.id === pur_course.courseId;
+                }
+              );
+
+              console.log({course: course.id});
+              console.log({pur: course.PurchaseCourse});
+              
+              
+              console.log({isPurchased});
+              
+
+              return (
+                <TooltipProvider key={course.id}>
+                  <Tooltip delayDuration={200}>
+                    <TooltipTrigger>
+                      <div >
+                        <CourseCard
+                          id={course.id}
+                          title={course.title}
+                          category={course.category!}
+                          price={course.cost!}
+                          imageUrl={course.image!}
+                          rating={rating}
+                          isPurchased={isPurchased}
+                        />
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>{course.title}</TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              );
+            })
           )}
         </div>
       </div>

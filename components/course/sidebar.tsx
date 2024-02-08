@@ -35,7 +35,7 @@ const Sidebar = () => {
     router.push(url);
   };
   return (
-    <div className="h-full">
+    <div className="h-full relative">
       {/* Open and close button */}
       {/* {isOpen && (
         <div className="animate-in slide-in-from-right-5 z-0 h-full inset-0 fade-in-20">

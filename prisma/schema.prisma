@@ -30,8 +30,9 @@ model User {
   password String
   role     UserRole @default(USER)
 
-  Account      Account[]
-  CourseReview CourseReview[]
+  Account        Account[]
+  CourseReview   CourseReview[]
+  PurchaseCourse PurchaseCourse[]
 }
 
 model Course {
@@ -94,6 +95,7 @@ model PurchaseCourse {
   userId   String
   courseId String
 
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 }
 

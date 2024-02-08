@@ -1,3 +1,4 @@
+"use client";
 import { currencyConverter } from "@/lib/currency-converter";
 import { Rating } from "@mui/material";
 import Image from "next/image";

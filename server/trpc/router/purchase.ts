@@ -86,8 +86,8 @@ export const purchaseRouter = router({
           customer: StripeCustomer.StripeCustomerId,
           line_items,
           mode: "payment",
-          success_url: `${process.env.NEXT_PUBLIC_APP_URL}/learn/${course.id}/success=1`,
-          cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/learn/${course.id}/canceled=1`,
+          success_url: `${process.env.NEXT_PUBLIC_APP_URL}/learn/${course.id}/`,
+          cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/learn/${course.id}/`,
           metadata: {
             courseId: course.id,
             userId: ctx.userId,

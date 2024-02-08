@@ -22,7 +22,7 @@ const Navbar = async () => {
             <ul className="hidden md:flex gap-6 ">
               <li>
                 <Button variant="ghost" size="sm">
-                  About
+                  <Link href={"/mycourses"}>My courses</Link>
                 </Button>
               </li>
               <li>

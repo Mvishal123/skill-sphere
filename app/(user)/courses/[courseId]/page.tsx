@@ -1,20 +1,19 @@
+
 import MaxWidthContainer from "@/components/max-width-container";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { db } from "@/db";
 import { currencyConverter } from "@/lib/currency-converter";
 import { getCourseRating } from "@/utils/helpers/get-course-rating";
 import { Rating } from "@mui/material";
 import Image from "next/image";
-import React from "react";
 
+import UserCourseActionButton from "@/components/course/user-course-action-button";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import UserCourseActionButton from "@/components/course/user-course-action-button";
 
 interface CourseProps {
   courseId: string;

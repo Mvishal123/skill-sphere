@@ -1,4 +1,4 @@
-import { publicProcedure, router } from "../trpc";
+import { publicProcedure, router, userProcedure } from "../trpc";
 
 import { loginSchema, registerSchema } from "@/schemas";
 import { getUserByEmail } from "@/utils/data/getUserByEmail";
@@ -68,8 +68,6 @@ export const userRouter = router({
       return {
         success: "Signed in successfully",
       };
-
-
     } catch (error) {
       console.log({ "ERROR:": error });
 
@@ -78,5 +76,55 @@ export const userRouter = router({
         message: "Something unexpected happened",
       });
     }
+  }),
+
+  getMyCourses: userProcedure.query(async ({ ctx }) => {
+    const myCourses = await db.user.findFirst({
+      where: {
+        id: ctx.userId,
+      },
+      include: {
+        PurchaseCourse: {
+          select: {
+            courseId: true,
+          },
+        },
+      },
+    });
+
+    if (!myCourses) {
+      throw new TRPCError({ code: "NOT_FOUND", message: "No course found" });
+    }
+
+    const courses = await Promise.all(
+      myCourses.PurchaseCourse.map(async ({ courseId }) => {
+        const course = await db.course.findFirst({
+          where: {
+            id: courseId,
+          },
+          select: {
+            title: true,
+            id: true,
+            Chapter: true,
+            image: true,
+            difficulty: true,
+            category: true
+          },
+        });
+
+        if (course) {
+          return {
+            ...course,
+            Chapter: course.Chapter.length,
+          };
+        } else {
+          return null;
+        }
+      })
+    );
+
+    return {
+      courses,
+    };
   }),
 });

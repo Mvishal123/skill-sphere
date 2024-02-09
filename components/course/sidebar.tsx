@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePathname, useSearchParams } from "next/navigation";
 import { trpc } from "@/app/_trpc/trpc-client";
@@ -11,8 +10,6 @@ import { Compass } from "lucide-react";
 import { Input } from "../ui/input";
 
 const Sidebar = () => {
-  //   const [isMounted, setIsMounted] = useState<boolean>(false);
-
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -34,61 +31,31 @@ const Sidebar = () => {
 
     router.push(url);
   };
+
   return (
-    <div className="h-full relative">
-      {/* Open and close button */}
-      {/* {isOpen && (
-        <div className="animate-in slide-in-from-right-5 z-0 h-full inset-0 fade-in-20">
-          <div className="h-full w-60 border-r overflow-y-auto">
-            <div
-              className="absolute right-0 translate-x-5 top-3 bg-slate-100 hover:bg-slate-200 pr-2 py-2  cursor-pointer group"
-              style={{ borderRadius: "0 100px 100px 0" }}
-              onClick={toggleOpen}
-            >
-              <X className="h-3 w-3 text-slate-200 group-hover:text-slate-800 " />
-            </div>
-            hey
-          </div>
+    <div className="lg:fixed pt-16 lg:w-[20%] hidden lg:block h-[calc(100vh-4rem)]">
+      <div className="p-3 border-r">
+        <div className="flex items-center gap-2 pl-3">
+          <Compass />
+          <h1 className="text-xl font-bold"> Explore</h1>
         </div>
-      )}
-      {!isOpen && (
-        <div className="w-[10px] group h-full">
-          <div
-            onClick={toggleOpen}
-            className="bg-slate-200 translate-y-5 pr-1.5 py-1 rounded-r-full cursor-pointer"
-          >
-            <ChevronRight className="h-5 w-5 text-slate-200 group-hover:text-slate-800" />
-          </div>
+        <div className="mt-4 pl-3">
+          <Input placeholder="Search..." />
         </div>
-      )} */}
-
-      {/* Contents */}
-      <div className="h-full w-60 border-r overflow-y-auto scrollbar-thumb-gray-500 scrollbar-track-gray-200 scrollbar-thumb-rounded hover:scrollbar-thumb-gray-700">
-        <div className="p-3">
-          <div className="flex items-center gap-2 pl-3">
-            <Compass />
-            <h1 className="text-xl font-bold"> Explore</h1>
-          </div>
-
-          {/* TODO: add a seperate component for search functionality */}
-          <div className="mt-4 pl-3">
-            <Input placeholder="Search..." />
-          </div>
-          <ul className="space-y-2 mt-4">
-            {categories?.map((category) => {
-              return (
-                <li
-                  key={category.id}
-                  className={cn(
-                    "w-full py-2 px-3 rounded-md cursor-pointer",
-                    categorySearch === category.category && "bg-slate-100"
-                  )}
-                  onClick={() => onClick(category.category)}
-                >
-                  {category.category}
-                </li>
-              );
-            })}
+        <div className="h-[900px] overflow-y-auto scrollbar-thumb-gray-500 scrollbar-track-gray-200 scrollbar-thumb-rounded hover:scrollbar-thumb-gray-700">
+          <ul className="space-y-2">
+            {categories?.map((category) => (
+              <li
+                key={category.id}
+                className={cn(
+                  "w-full py-2 px-3 rounded-md cursor-pointer",
+                  categorySearch === category.category && "bg-slate-100"
+                )}
+                onClick={() => onClick(category.category)}
+              >
+                {category.category}
+              </li>
+            ))}
           </ul>
         </div>
       </div>

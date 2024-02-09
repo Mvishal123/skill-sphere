@@ -147,7 +147,7 @@ export const userRouter = router({
       }
 
       return {
-        chapter
-      }
+        chapter,
+      };
     }),
 });

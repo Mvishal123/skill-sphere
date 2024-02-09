@@ -36,6 +36,9 @@ const config: import("tailwindcss").Config = withUt({
       },
     },
     extend: {
+      fontFamily: {
+        protest: ["/fonts/protest.ttf", "sans-serif"]
+      }, 
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

@@ -10,7 +10,7 @@ const Landing = () => {
           Don&apos;t just browse the web
         </h1>
         <h2 className="text-center text-4xl md:text-5xl lg:text-6xl font-bold drop-shadow-lg">
-          Learn to design it
+          <span className="font-protest">Learn</span> to design it
         </h2>
       </div>
 

@@ -19,8 +19,7 @@ interface SearchParamsProps {
 
 const CoursePage = async ({ searchParams }: SearchParamsProps) => {
   const session = await getServerAuthSession();
-  console.log({session});
-  
+  console.log({ session });
 
   const splitBySpace = searchParams.category
     ? searchParams.category.split(" ")
@@ -64,18 +63,16 @@ const CoursePage = async ({ searchParams }: SearchParamsProps) => {
     });
 
     purchasedCourses = user?.PurchaseCourse ? user.PurchaseCourse : [];
-   
-    
   }
 
   return (
     <div className="flex flex-col lg:flex-row">
       {/* Sidebar*/}
-      <div className="lg:w-1/4 hidden lg:block">
+      <div className="">
         <Sidebar />
       </div>
 
-      <div className="lg:w-3/4 px-4  h-full">
+      <div className="lg:pl-80 pt-12 w-full px-4  h-full">
         <div className="p-4 lg:p-10">
           <h1 className="text-3xl font-bold">Courses</h1>
         </div>
@@ -97,18 +94,16 @@ const CoursePage = async ({ searchParams }: SearchParamsProps) => {
                 }
               );
 
-              console.log({course: course.id});
-              console.log({pur: course.PurchaseCourse});
-              
-              
-              console.log({isPurchased});
-              
+              console.log({ course: course.id });
+              console.log({ pur: course.PurchaseCourse });
+
+              console.log({ isPurchased });
 
               return (
                 <TooltipProvider key={course.id}>
                   <Tooltip delayDuration={200}>
                     <TooltipTrigger>
-                      <div >
+                      <div>
                         <CourseCard
                           id={course.id}
                           title={course.title}

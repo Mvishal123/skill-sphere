@@ -16,7 +16,7 @@ const Navbar = () => {
       <MaxWidthContainer>
         <nav className="h-full flex justify-between items-center">
           <h1 className="text-2xl font-bold">
-            <Link href="/mycourses"> SkillSphere</Link>
+            <Link href="/"> SkillSphere</Link>
           </h1>
 
           <div className="flex">

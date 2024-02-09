@@ -3,9 +3,9 @@
 import FileUploader from "@/components/file-uploader";
 import { Button } from "@/components/ui/button";
 import VideoPlayer from "@/components/video-player";
-import { CameraIcon, PencilIcon, PlusCircle, Video } from "lucide-react";
+import { PencilIcon, PlusCircle, Video } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
 
 interface ChapterVideoFormProps {
   initialValue: string;

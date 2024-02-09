@@ -21,7 +21,7 @@ const LearnSideBar = ({ chapters }: LearnSideBarProps) => {
   };
 
   return (
-    <div className="lg:w-72 h-full lg:relative lg:border-r lg:border-l-2 lg:overflow-auto">
+    <div className="h-full lg:border-r lg:border-l-2 lg:overflow-auto">
       <div className="bg-slate-100 pt-6 flex items-center">
         <h1 className="px-2 text-xl font-semibold">Contents</h1>
       </div>

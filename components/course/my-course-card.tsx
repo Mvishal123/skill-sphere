@@ -1,11 +1,12 @@
+"use client"
+
 import { CourseDifficulty } from "@prisma/client";
-import React from "react";
-import { Card } from "../ui/card";
+import { Book } from "lucide-react";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import IconBadge from "../icon-badge";
-import { Book } from "lucide-react";
+import { Card } from "../ui/card";
+import { useRouter } from "next/navigation";
 
 interface MyCourseCardProps {
   id: string;
@@ -23,6 +24,11 @@ const MyCourseCard = ({
   difficuly,
   category,
 }: MyCourseCardProps) => {
+  const router = useRouter();
+
+  // TODO: get the course progress
+  // Change the layout
+
   return (
     <Card className="p-1 w-full rounded-lg">
       <div className="flex flex-col md:flex-row gap-4">
@@ -54,7 +60,7 @@ const MyCourseCard = ({
               </div>
               <span className="text-xs text-slate-500 italic">{chapterCount} chapters</span>
             </div>
-            <Button size="sm" className="">
+            <Button size="sm" className="" onClick={() => router.push(`/learn/${id}`)}>
               Continue
             </Button>
           </div>

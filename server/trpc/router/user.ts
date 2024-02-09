@@ -7,6 +7,7 @@ import { signIn } from "@/auth";
 import { db } from "@/db";
 import { TRPCError } from "@trpc/server";
 import bcrypt from "bcryptjs";
+import { z } from "zod";
 
 export const userRouter = router({
   registerUser: publicProcedure
@@ -108,7 +109,7 @@ export const userRouter = router({
             Chapter: true,
             image: true,
             difficulty: true,
-            category: true
+            category: true,
           },
         });
 
@@ -127,4 +128,26 @@ export const userRouter = router({
       courses,
     };
   }),
+
+  getChapterDetails: userProcedure
+    .input(
+      z.object({
+        chapterId: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const chapter = await db.chapter.findFirst({
+        where: {
+          id: input.chapterId,
+        },
+      });
+
+      if (!chapter) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "Course not found" });
+      }
+
+      return {
+        chapter
+      }
+    }),
 });

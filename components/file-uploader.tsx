@@ -5,7 +5,7 @@ interface FileUploaderProps {
   courseId: string;
   chapterId?: string;
   endPoint: keyof typeof ourFileRouter;
-  onChange: (url: string) => void;
+  onChange: (res: string) => void;
 }
 const FileUploader = ({
   courseId,

@@ -45,7 +45,6 @@ const CategoryForm = ({ initialValue, courseId }: CategoryProps) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
-  const utils = trpc.useUtils();
   const form = useForm<z.infer<typeof courseSchema>>({
     resolver: zodResolver(courseSchema),
     defaultValues: {
@@ -57,7 +56,7 @@ const CategoryForm = ({ initialValue, courseId }: CategoryProps) => {
     trpc.course.updateCourse.useMutation({
       onSuccess: () => {
         toast.success("Title updated");
-        utils.invalidate();
+        router.refresh();
       },
       onError: ({ message }) => {
         toast.error(message);
@@ -69,9 +68,7 @@ const CategoryForm = ({ initialValue, courseId }: CategoryProps) => {
 
   const { data: categories } = trpc.course.getCategories.useQuery();
 
-
   const onSubmit = async (data: z.infer<typeof courseSchema>) => {
-
     updateCourse({
       values: data,
       courseId,

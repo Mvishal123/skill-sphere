@@ -1,15 +1,13 @@
 "use client";
 
+import { trpc } from "@/app/_trpc/trpc-client";
 import { Button } from "@/components/ui/button";
 import { CameraIcon, PencilIcon, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import UploadDropZone from "../../file-uploader";
-import { trpc } from "@/app/_trpc/trpc-client";
+import { useState } from "react";
 import { toast } from "sonner";
-import { z } from "zod";
-import { courseSchema } from "@/schemas";
+import UploadDropZone from "../../file-uploader";
 
 interface imageProps {
   initialValue: string;
@@ -20,13 +18,11 @@ const ImageForm = ({ initialValue, courseId }: imageProps) => {
   const [edit, setEdit] = useState(false);
   const router = useRouter();
 
-  const utils = trpc.useUtils();
-
   const { mutate: updateCourse, isPending } =
     trpc.course.updateCourse.useMutation({
       onSuccess: () => {
         toast.success("Image updated");
-        utils.invalidate();
+        router.refresh();
       },
       onError: ({ message }) => {
         toast.error(message);

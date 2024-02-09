@@ -6,6 +6,7 @@ import VideoPlayer from "@/components/video-player";
 import { PencilIcon, PlusCircle, Video } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 interface ChapterVideoFormProps {
   initialValue: string;
@@ -21,8 +22,10 @@ const ChapterVideoForm = ({
   const [edit, setEdit] = useState(false);
   const router = useRouter();
 
-
-  const handleSubmit = async ({ videoUrl }: { videoUrl: string }) => {};
+  const onComplete = async (res: string) => {
+    toast.success("Video uploaded");
+    router.refresh();
+  };
   const handleEdit = () => setEdit((prev) => !prev);
   return (
     <div className="w-full">
@@ -55,7 +58,7 @@ const ChapterVideoForm = ({
               <FileUploader
                 courseId={courseId}
                 chapterId={chapterId}
-                onChange={() => {}}
+                onChange={(res) => onComplete(res)}
                 endPoint="uploadVideo"
               />
             </div>

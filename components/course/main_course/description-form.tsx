@@ -39,15 +39,13 @@ const DescriptionForm = ({ initialValue, courseId }: PageProps) => {
     },
   });
 
-  const utils = trpc.useUtils();
-
   const handleEdit = () => setEdit((prev) => !prev);
 
   const { mutate: updateCourse, isPending } =
     trpc.course.updateCourse.useMutation({
       onSuccess: () => {
         toast.success("Title updated");
-        utils.invalidate();
+        router.refresh();
       },
       onError: ({ message }) => {
         toast.error(message);

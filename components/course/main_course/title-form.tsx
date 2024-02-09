@@ -1,25 +1,19 @@
 "use client";
 import { PencilIcon } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { cn } from "@/lib/utils";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import {
-  Form,
-  FormControl,
-  FormItem,
-  FormMessage,
-  FormField,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
-import { useRouter } from "next/navigation";
-import { courseSchema, courseTitleSchema } from "@/schemas";
+import { courseSchema } from "@/schemas";
 import { trpc } from "@/utils/trpc-client";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 interface titleProps {
@@ -31,21 +25,18 @@ const TitleForm = ({ initialValue, courseId }: titleProps) => {
   const router = useRouter();
   const [edit, setEdit] = useState(false);
 
-  const utils = trpc.useUtils();
-
   const form = useForm<z.infer<typeof courseSchema>>({
     resolver: zodResolver(courseSchema),
     defaultValues: {
       title: initialValue,
     },
   });
-  
 
   const { mutate: updateCourse, isPending } =
     trpc.course.updateCourse.useMutation({
       onSuccess: () => {
         toast.success("Title updated");
-        utils.invalidate();
+        router.refresh();
       },
       onError: ({ message }) => {
         toast.error(message);

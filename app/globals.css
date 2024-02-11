@@ -91,3 +91,17 @@
     background: #555; /* Change this to the color you prefer */
   }
 }
+
+.sliderblur::before {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  content: '';
+  width: 40px;
+  height: 100%;
+  min-height: 300px;
+  border-radius: 50%;
+  background: rgba(255, 0, 0, 0.44);
+  filter: blur(227px);
+  pointer-events: none;
+}

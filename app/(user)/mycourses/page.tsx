@@ -11,7 +11,7 @@ const page = () => {
   const { data } = trpc.user.getMyCourses.useQuery();
 
   return (
-    <div className="h-full">
+    <div className="h-full pt-24">
       <MaxWidthContainer>
         <div className="pt-6">
           <h1 className="text-3xl font-bold">My courses</h1>

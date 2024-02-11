@@ -1,9 +1,11 @@
 import { auth } from "@/auth";
-import Navbar from "@/components/navbar/navbar";
 import { TRPCProvider } from "@/components/trpc-context-provider";
 import type { Metadata } from "next";
-import { SessionProvider, useSession } from "next-auth/react";
+import { SessionProvider } from "next-auth/react";
+
 import { Inter } from "next/font/google";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 import "./globals.css";
 
 import { Toaster } from "@/components/ui/sonner";

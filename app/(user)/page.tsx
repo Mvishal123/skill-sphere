@@ -1,13 +1,24 @@
+import Companies from "@/components/landing/companies";
 import Landing from "@/components/landing/landing";
-import { getServerAuthSession } from "@/utils/data/getServerAuthSession";
-import React from "react";
+import StartLearningCourses from "@/components/landing/start-learning";
+import MaxWidthContainer from "@/components/max-width-container";
 
 const page = async () => {
-  const session = await getServerAuthSession();
+  // const session = await getServerAuthSession();
 
   return (
-    <div className="">
+    <div className="pt-[4rem]">
       <Landing />
+
+      <section>
+        <Companies />
+      </section>
+
+      <MaxWidthContainer>
+        <section>
+          <StartLearningCourses />
+        </section>
+      </MaxWidthContainer>
     </div>
   );
 };

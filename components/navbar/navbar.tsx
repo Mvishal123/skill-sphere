@@ -9,11 +9,13 @@ import StartTeachingButton from "./start-teaching-btn";
 
 const Navbar = async () => {
   return (
-    <nav className="w-full h-16 py-4 backdrop-blur-sm z-10 border">
+    <nav className="fixed w-full h-16 py-4 backdrop-blur-sm z-10 border">
       <MaxWidthContainer>
         <div className="flex justify-between items-center">
-          <h1 className="font-bold text-2xl">
-            <Link href={"/"}>SkillSphere</Link>
+          <h1 className="font-bold text-3xl">
+            <Link href={"/"}>
+              Skill<span className="text-purply">Sphere</span>
+            </Link>
           </h1>
           <div className="flex gap-12 items-center">
             <div className="hidden md:block">

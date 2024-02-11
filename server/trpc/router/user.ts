@@ -150,4 +150,6 @@ export const userRouter = router({
         chapter,
       };
     }),
+
+  tester: publicProcedure.query(() => "hello"),
 });

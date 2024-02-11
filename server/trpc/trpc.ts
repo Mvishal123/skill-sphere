@@ -34,6 +34,7 @@ const user_middleware = middleware(async (opts) => {
 });
 
 export const router = t.router;
+export const createCallerFactory = t.createCallerFactory
 export const publicProcedure = t.procedure;
 
 // ADMIN router

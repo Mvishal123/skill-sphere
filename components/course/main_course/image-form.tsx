@@ -2,7 +2,7 @@
 
 import { trpc } from "@/app/_trpc/trpc-client";
 import { Button } from "@/components/ui/button";
-import { CameraIcon, PencilIcon, PlusCircle } from "lucide-react";
+import { Camera, CameraIcon, PencilIcon, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -83,6 +83,13 @@ const ImageForm = ({ initialValue, courseId }: imageProps) => {
                 alt="course image"
                 className="object-contain"
               />
+            </div>
+          )}
+          {!initialValue && !edit && (
+            <div className="relative aspect-video">
+              <div className="w-full h-full bg-slate-200 rounded-lg flex justify-center items-center">
+                <Camera className="text-muted-foreground h-12 w-12" />
+              </div>
             </div>
           )}
         </div>

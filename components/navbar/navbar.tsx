@@ -9,7 +9,7 @@ import StartTeachingButton from "./start-teaching-btn";
 
 const Navbar = async () => {
   return (
-    <nav className="fixed w-full h-16 py-4 backdrop-blur-sm z-10 border">
+    <nav className="fixed w-full h-16 py-4 backdrop-blur-xl z-50 border">
       <MaxWidthContainer>
         <div className="flex justify-between items-center">
           <h1 className="font-bold text-3xl">

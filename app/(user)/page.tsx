@@ -1,5 +1,7 @@
+import AllCourses from "@/components/landing/all-courses";
 import Companies from "@/components/landing/companies";
 import Landing from "@/components/landing/landing";
+import PopularCourses from "@/components/landing/popular-courses";
 import StartLearningCourses from "@/components/landing/start-learning";
 import MaxWidthContainer from "@/components/max-width-container";
 
@@ -17,6 +19,9 @@ const page = async () => {
       <MaxWidthContainer>
         <section>
           <StartLearningCourses />
+        </section>
+        <section>
+          <AllCourses />
         </section>
       </MaxWidthContainer>
     </div>

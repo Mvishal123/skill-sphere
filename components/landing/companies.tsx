@@ -3,10 +3,8 @@ import { COMPANIES_LANDING } from "@/constants";
 import Marquee from "react-fast-marquee";
 
 const Companies = async () => {
-  const data = await serverTrpc.user.tester();
   return (
     <div className="relative h-[calc(100vh-60vh-4rem)]">
-        {data}
       <Marquee loop={0} speed={20} pauseOnHover={true}>
         {COMPANIES_LANDING.map((company, index) => {
           return (

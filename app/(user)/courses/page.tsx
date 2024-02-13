@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/tooltip";
 import { db } from "@/db";
 import { getServerAuthSession } from "@/utils/data/getServerAuthSession";
+import { getCourseRating } from "@/utils/helpers/get-course-rating";
 import { Ghost } from "lucide-react";
 import React from "react";
 
@@ -84,20 +85,15 @@ const CoursePage = async ({ searchParams }: SearchParamsProps) => {
             </div>
           ) : (
             courses.map((course) => {
-              let rating = 0;
-              course.CourseReview.forEach((review) => {
-                rating += review.rating;
-              });
-              const isPurchased = !!purchasedCourses.find(
-                (pur_course: { courseId: string }) => {
-                  return course.id === pur_course.courseId;
-                }
-              );
-
-              console.log({ course: course.id });
-              console.log({ pur: course.PurchaseCourse });
-
-              console.log({ isPurchased });
+              const rating = getCourseRating(course.CourseReview);
+              let isPurchased;
+              if (session) {
+                isPurchased = purchasedCourses.find(
+                  (pur_course: { courseId: string }) => {
+                    return course.id === pur_course.courseId;
+                  }
+                );
+              }
 
               return (
                 <TooltipProvider key={course.id}>
@@ -111,7 +107,7 @@ const CoursePage = async ({ searchParams }: SearchParamsProps) => {
                           price={course.cost!}
                           imageUrl={course.image!}
                           rating={rating}
-                          isPurchased={isPurchased}
+                          isPurchased={isPurchased || false}
                         />
                       </div>
                     </TooltipTrigger>

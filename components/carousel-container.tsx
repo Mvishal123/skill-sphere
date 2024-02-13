@@ -23,29 +23,29 @@ const CarouselContainer = ({ settings, children }: CarouselContainerProps) => {
     // cssEase: "linear",
     nextArrow: <></>,
     prevArrow: <></>,
-    // responsive: [
-    //   {
-    //     breakpoint: 1444,
-    //     settings: {
-    //       slidesToShow: 2,
-    //     },
-    //   },
-    //   {
-    //     breakpoint: 1000,
-    //     settings: {
-    //       slidesToShow: 1,
-    //       slidesToScroll: 1,
-    //     },
-    //   },
-    //   {
-    //     breakpoint: 600,
-    //     settings: {
-    //       slidesToShow: 1,
-    //       slidesToScroll: 1,
-    //       centerPadding: '20px',
-    //     },
-    //   },
-    // ],
+    responsive: [
+      {
+        breakpoint: 1444,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 1000,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          centerPadding: '20px',
+        },
+      },
+    ],
     ...settings,
   };
 

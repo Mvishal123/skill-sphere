@@ -12,8 +12,11 @@ interface CourseCardProps {
   imageUrl: string;
   category: string;
   price: number;
-  rating: number;
-  isPurchased: boolean;
+  rating: {
+    rating: number;
+    count: number;
+  };
+  isPurchased?: boolean;
 }
 
 const CourseCard = ({
@@ -23,7 +26,7 @@ const CourseCard = ({
   price,
   rating,
   title,
-  isPurchased,
+  isPurchased = false,
 }: CourseCardProps) => {
   return (
     <Card className="p-1 max-w-full md:max-w-[300px] pb-1">
@@ -51,7 +54,7 @@ const CourseCard = ({
               {currencyConverter(price)}
             </div>
             <div>
-              <Rating size="small" value={rating} readOnly />
+              <Rating size="small" value={rating.rating} readOnly />
             </div>
           </div>
         )}

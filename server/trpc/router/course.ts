@@ -1,5 +1,5 @@
 import { courseSchema, courseTitleSchema } from "@/schemas";
-import { adminProcedure, router } from "../trpc";
+import { adminProcedure, publicProcedure, router } from "../trpc";
 import { getServerAuthSession } from "@/utils/data/getServerAuthSession";
 import { TRPCError } from "@trpc/server";
 import { db } from "@/db";
@@ -174,7 +174,7 @@ export const courseRouter = router({
         });
       }
     }),
-    unpublishCourse: adminProcedure
+  unpublishCourse: adminProcedure
     .input(
       z.object({
         courseId: z.string(),
@@ -210,4 +210,37 @@ export const courseRouter = router({
         });
       }
     }),
+
+  // getTrendingCourses: publicProcedure.query(async () => {
+  //   const courses = await db.course.findMany({
+  //     select: {
+  //       CourseReview: {
+  //         where: {
+  //           rating: {
+  //             gt: 3.5,
+  //           },
+  //         },
+  //       },
+  //     },
+  //   });
+
+  //   console.log({ courses });
+  // }),
+
+  getAllCourses: publicProcedure.query(async () => {
+    const courses = await db.course.findMany({
+      where: {
+        isPublished: true,
+      },
+      include: {
+        CourseReview: {
+          select: {
+            rating: true,
+          },
+        },
+      },
+    });
+
+    return courses;
+  }),
 });

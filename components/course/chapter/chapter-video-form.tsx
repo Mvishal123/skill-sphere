@@ -24,7 +24,7 @@ const ChapterVideoForm = ({
 
   const onComplete = async (res: string) => {
     toast.success("Video uploaded");
-    router.refresh();
+    window.location.reload();
   };
   const handleEdit = () => setEdit((prev) => !prev);
   return (

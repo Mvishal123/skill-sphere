@@ -13,7 +13,9 @@ const AllCourses = async () => {
       <div className="mb-10">
         <h1 className="text-2xl font-bold">Explore courses </h1>
       </div>
-      <CarouselContainer settings={{ infinite: false, slideToShow: 4}}>
+      <CarouselContainer
+        settings={{ infinite: false, slidesToShow: 4, autoPlay: false }}
+      >
         {courses.map((course) => {
           const rating = getCourseRating(course.CourseReview);
           return (

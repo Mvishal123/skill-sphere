@@ -8,16 +8,18 @@ interface Layout {
 
 const layout = ({ children }: Layout) => {
   return (
-    <MaxWidthContainer>
-      <div className="w-full h-[calc(100vh-4rem)] flex">
-        <div className="flex-1 flex items-center justify-center">
-          {children}
-        </div>
-        <div className="flex-1 flex justify-start items-center">
+    <div>
+      <div className="w-full h-[100vh] flex">
+        <MaxWidthContainer>
+          <div className="flex-1 h-full flex items-center justify-center ">
+            {children}
+          </div>
+        </MaxWidthContainer>
+        <div className="hidden flex-1 md:flex justify-start items-center bg-[url('/endless-constellation.svg')] object-cover px-12 text-white">
           <TypeAnimationStudent />
         </div>
       </div>
-    </MaxWidthContainer>
+    </div>
   );
 };
 

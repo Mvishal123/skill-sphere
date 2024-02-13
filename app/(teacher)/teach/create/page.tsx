@@ -20,14 +20,18 @@ import {
 import { Input } from "@/components/ui/input";
 import { trpc } from "@/utils/trpc-client";
 import { toast } from "sonner";
+import { useState } from "react";
+import { Loader } from "lucide-react";
 
 const CreateCourse = () => {
+  const [doneUploading, setDoneUploading] = useState<boolean>(false);
   const router = useRouter();
 
   const { mutate: createCourse, isPending } =
     trpc.course.createCourse.useMutation({
       onSuccess: (res) => {
         toast.success("Course has been created successfully");
+        setDoneUploading(true);
         router.push(`/teach/create/${res.courseId}`);
       },
 
@@ -44,7 +48,15 @@ const CreateCourse = () => {
     defaultValues: { title: "" },
   });
   return (
-    <div className="h-[80vh] flex justify-center items-center w-full">
+    <div className="realtive h-[80vh] flex justify-center items-center w-full">
+      {doneUploading && (
+        <div className="absolute h-full w-full top-0 backdrop-blur-sm flex justify-center items-center">
+          <div className="flex flex-col items-center">
+            <Loader />
+            <p>Redirecting...</p>
+          </div>
+        </div>
+      )}
       <div className="md:w-1/2 w-3/4">
         <div>
           <h1 className="text-3xl mb-12 font-bold">Course title</h1>

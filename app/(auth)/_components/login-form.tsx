@@ -9,7 +9,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import AuthCardTemplate from "./auth-card";
@@ -18,7 +18,7 @@ import { ErrorMessage, SuccessMessage } from "@/components/status-message";
 import { loginSchema } from "@/schemas";
 import { trpc } from "@/utils/trpc-client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -26,9 +26,12 @@ const LoginForm = () => {
   const [success, setSuccess] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>();
 
+  const router = useRouter();
+
   const { mutate: loginUser, isPending } = trpc.user.loginUser.useMutation({
     onSuccess: (res) => {
       setSuccess(res.success);
+      router.push("/");
     },
 
     onError: ({ data, message }) => {
@@ -92,7 +95,7 @@ const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="*****" {...field} type="password"/>
+                    <Input placeholder="*****" {...field} type="password" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

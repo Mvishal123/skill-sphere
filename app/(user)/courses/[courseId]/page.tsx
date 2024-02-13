@@ -41,8 +41,8 @@ const Course = async ({ params }: { params: CourseProps }) => {
   const rating = getCourseRating(course?.CourseReview!);
 
   return (
-    <div>
-      <div className="border-b pt-4 py-4 bg-slate-800 h-60 w-screen">
+    <div className="relative">
+      <div className="border-b pt-20 py-4 bg-slate-800 h-60 w-screen">
         <MaxWidthContainer>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="md:col-span-2">

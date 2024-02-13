@@ -3,8 +3,8 @@ import React, { PropsWithChildren } from "react";
 
 const layout = ({ children }: PropsWithChildren) => {
   return (
-    <div className="">
-      <div className="z-10 w-full">
+    <div className="relative">
+      <div className=" z-10 w-full">
         <Navbar />
       </div>
       {children}

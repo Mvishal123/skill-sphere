@@ -9,7 +9,7 @@ const page = async () => {
   // const session = await getServerAuthSession();
 
   return (
-    <div className="pt-[4rem]">
+    <div className="pt-[4rem] py-4">
       <Landing />
 
       <section>

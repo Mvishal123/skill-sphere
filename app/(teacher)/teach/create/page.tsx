@@ -87,7 +87,7 @@ const CreateCourse = () => {
                         disabled={isPending}
                         type="button"
                         variant={"secondary"}
-                        onClick={() => router.push("/teacher/courses")}
+                        onClick={() => router.push("/teach")}
                       >
                         Cancel
                       </Button>

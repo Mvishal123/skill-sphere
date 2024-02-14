@@ -1,3 +1,4 @@
+import ReviewButton from "@/components/course/review-button";
 import CourseVideoPlayer from "@/components/learn/course-video-player";
 import LearnSideBar from "@/components/learn/learn-sidebar";
 import { db } from "@/db";
@@ -21,11 +22,26 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
     },
   });
 
+  const reviewed = await db.purchaseCourse.findFirst({
+    where: {
+      courseId: params.courseId,
+      userId: session.userId,
+    },
+    select: {
+      isReviewed: true,
+    },
+  });
+
   return (
     <div className="flex flex-col lg:flex-row">
       <div className="pt-8 px-12 flex-1">
-        <div>
+        <div className="w-full flex flex-col md:flex-row justify-between">
           <h1 className="text-xl font-semibold">{course?.title}</h1>
+          {!reviewed?.isReviewed && (
+            <div className="md:px-12">
+              <ReviewButton courseId={params.courseId} />
+            </div>
+          )}
         </div>
         <div className="relative mt-12 w-full">
           <CourseVideoPlayer />

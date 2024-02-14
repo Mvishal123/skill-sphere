@@ -9,7 +9,6 @@ import ProfileButton from "../navbar/profile-button";
 
 const Navbar = () => {
   const pathname = usePathname();
-  console.log(pathname);
 
   return (
     <header className="h-14 border-b">

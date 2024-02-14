@@ -151,5 +151,38 @@ export const userRouter = router({
       };
     }),
 
-  tester: publicProcedure.query(() => "hello"),
+  giveReview: userProcedure
+    .input(
+      z.object({
+        courseId: z.string(),
+        review: z.string().optional(),
+        rating: z.number(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      try {
+        const courseRev = await db.courseReview.create({
+          data: {
+            courseId: input.courseId,
+            userId: ctx.userId,
+            rating: input.rating,
+            review: input.review ?? "",
+          },
+        });
+
+        await db.purchaseCourse.update({
+          where: {
+            userId_courseId: {
+              userId: ctx.userId,
+              courseId: input.courseId,
+            },
+          },
+          data: {
+            isReviewed: true,
+          },
+        });
+      } catch (error) {
+        throw new TRPCError({code: "INTERNAL_SERVER_ERROR", message : "Something went wrong"})
+      }
+    }),
 });

@@ -20,7 +20,6 @@ interface SearchParamsProps {
 
 const CoursePage = async ({ searchParams }: SearchParamsProps) => {
   const session = await getServerAuthSession();
-  console.log({ session });
 
   const splitBySpace = searchParams.category
     ? searchParams.category.split(" ")
@@ -49,7 +48,6 @@ const CoursePage = async ({ searchParams }: SearchParamsProps) => {
 
   let user, purchasedCourses: any;
   if (session?.userId) {
-    console.log("inside");
     user = await db.user.findFirst({
       where: {
         id: session.id,

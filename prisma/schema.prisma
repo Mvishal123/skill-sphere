@@ -59,13 +59,12 @@ model Course {
 }
 
 model CourseReview {
-  id       String @id @default(cuid())
-  userId   String @unique
-  courseId String @unique
+  id         String  @id @default(cuid())
+  userId     String  @unique
+  courseId   String  @unique
 
-  review    String @db.Text
-  studentId String
-  rating    Float
+  review String @db.Text
+  rating Float
 
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -91,12 +90,15 @@ model Coursecategory {
 }
 
 model PurchaseCourse {
-  id       String @id @default(cuid())
-  userId   String
+  id       String  @id @default(cuid())
+  userId   String 
   courseId String
+  isReviewed Boolean @default(false)
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId])
 }
 
 model StripeCustomer {

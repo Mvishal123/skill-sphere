@@ -97,6 +97,7 @@ export const purchaseRouter = router({
         return {
           url: session.url,
         };
+        
       } catch (error: any) {
         console.log("[COURSE CHECKOUT ERROR]: " + error);
         throw new TRPCError({

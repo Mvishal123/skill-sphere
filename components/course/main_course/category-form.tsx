@@ -126,7 +126,7 @@ const CategoryForm = ({ initialValue, courseId }: CategoryProps) => {
                         <SelectContent>
                           {categories?.map((course) => {
                             return (
-                              <SelectItem value={course.category}>
+                              <SelectItem value={course.category} key={course.id}>
                                 {course.category}
                               </SelectItem>
                             );

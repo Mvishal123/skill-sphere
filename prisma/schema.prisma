@@ -59,9 +59,9 @@ model Course {
 }
 
 model CourseReview {
-  id         String  @id @default(cuid())
-  userId     String  @unique
-  courseId   String  @unique
+  id       String @id @default(cuid())
+  userId   String @unique
+  courseId String @unique
 
   review String @db.Text
   rating Float
@@ -90,9 +90,9 @@ model Coursecategory {
 }
 
 model PurchaseCourse {
-  id       String  @id @default(cuid())
-  userId   String 
-  courseId String
+  id         String  @id @default(cuid())
+  userId     String
+  courseId   String
   isReviewed Boolean @default(false)
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)

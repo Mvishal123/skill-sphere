@@ -61,7 +61,6 @@ const DifficultyForm = ({ initialValue, courseId }: DifficultyProps) => {
       courseId,
     });
   };
-  
 
   const handleEdit = () => setEdit((prev) => !prev);
 
@@ -129,7 +128,7 @@ const DifficultyForm = ({ initialValue, courseId }: DifficultyProps) => {
                         <SelectContent>
                           {difficultySeed?.map((dif) => {
                             return (
-                              <SelectItem value={dif.value}>
+                              <SelectItem value={dif.value} key={dif.label}>
                                 {dif.label}
                               </SelectItem>
                             );

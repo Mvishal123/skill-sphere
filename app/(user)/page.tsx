@@ -6,8 +6,6 @@ import StartLearningCourses from "@/components/landing/start-learning";
 import MaxWidthContainer from "@/components/max-width-container";
 
 const page = async () => {
-  // const session = await getServerAuthSession();
-
   return (
     <div className="pt-[4rem] py-4">
       <Landing />

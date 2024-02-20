@@ -15,6 +15,8 @@ Tailwindcss, shadCN ui, MaterialUI, Zod.
     password: 123123
     ```
 
+`More features are being added`
+
 The website might not load sometime as the deployment is done on a free plan.
 
 In that case here is a preview of the applciation.

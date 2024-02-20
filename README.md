@@ -26,9 +26,11 @@ In that case here is a preview of the applciation.
 - Create a course
 ![pricing page](./public/preview/create_course.png)
 </br>
+
 - Create chapters
 ![pricing page](./public/preview/create_chapter.png)
 </br>
+
 - Publish and manage courses
 ![pricing page](./public/preview/teacher_courses.png)
 </br>
@@ -37,12 +39,15 @@ In that case here is a preview of the applciation.
 - Explore courses
 ![pricing page](./public/preview/course_page.png)
 </br>
+
 - Select a course
 ![pricing page](./public/preview/buy_course.png)
 </br>
+
 - Purchase or enroll (free or paid) and start upskilling yourself.
 ![pricing page](./public/preview/buy_course.png)
 </br>
+
 - Start learning
 ![pricing page](./public/preview/review.png)
 </br>

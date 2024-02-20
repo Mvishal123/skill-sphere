@@ -47,7 +47,30 @@ In that case here is a preview of the applciation.
 ![pricing page](./public/preview/review.png)
 </br>
     
+<hr>
 
+## Installation
+First clone this repository. You can also fork this repository and then clone the forked one.
+```ts
+git clone https://github.com/Mvishal123/skill-sphere.git
+```
+Make sure you have Node Package Manager (npm) installed. Will work with most versions, but the latest (LTS) is recommended.
 
+Now you need to install all the dependencies.
+```ts
+cd skill-sphere
+npm install
+```
+You are done with the installation.
+
+To run the website, use the following command
+```ts
+npm run dev
+```
+- The website will be live at https://localhost:3000
+
+# Contributions are always welcomed.
+- Raise issues.
+- Make changes and make a PR.
 
  
